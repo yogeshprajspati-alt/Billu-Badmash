@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Letter for You</title>
-    
+
+    <!-- Fonts: same + added romantic handwritten touch -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,400&family=Dancing+Script:wght@500;700&family=Playfair+Display:ital,wght@0,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,400&family=Dancing+Script:wght@500;700&family=Playfair+Display:ital,wght@0,400;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -16,7 +17,6 @@
             box-sizing: border-box;
         }
 
-        /* All animations are unchanged */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -30,87 +30,42 @@
             50%, 99% { opacity: 0; } 
         }
         @keyframes floatUp {
-            0% { 
-                transform: translateY(100vh) translateX(0) scale(0); 
-                opacity: 0; 
-            }
+            0% { transform: translateY(100vh) translateX(0) scale(0); opacity: 0; }
             10% { opacity: 0.8; }
             90% { opacity: 0.6; }
-            100% { 
-                transform: translateY(-20vh) translateX(30px) scale(1.5); 
-                opacity: 0; 
-            }
+            100% { transform: translateY(-20vh) translateX(30px) scale(1.5); opacity: 0; }
         }
         @keyframes pulse {
-            0%, 100% { 
-                opacity: 0.4; 
-                box-shadow: 0 0 15px rgba(255, 182, 193, 0.4);
-            }
-            50% { 
-                opacity: 0.9; 
-                box-shadow: 0 0 30px rgba(255, 182, 193, 0.8), 0 0 45px rgba(255, 182, 193, 0.5);
-            }
-        }
-        @keyframes titleFadeIn {
-            from { 
-                opacity: 0; 
-                transform: translateY(-20px) scale(0.95); 
-                filter: blur(5px);
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0) scale(1); 
-                filter: blur(0);
-            }
+            0%, 100% { opacity: 0.4; box-shadow: 0 0 15px rgba(255, 182, 193, 0.4); }
+            50% { opacity: 0.9; box-shadow: 0 0 30px rgba(255, 182, 193, 0.8), 0 0 45px rgba(255, 182, 193, 0.5); }
         }
         @keyframes shimmer {
             0% { background-position: -1000px 0; }
             100% { background-position: 1000px 0; }
         }
 
-        /* All body, scrollbar, and orb styles are unchanged */
+        /* 🌸 Updated background with animated dreamy gradient */
+        @keyframes bgShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             font-family: 'Merriweather', serif;
-            color: #2d2d2d;
             line-height: 1.9;
+            color: #2d2d2d;
             margin: 0;
             padding: 40px 20px;
             overflow-x: hidden;
             min-height: 100vh;
             position: relative;
+            background: linear-gradient(-45deg, #ffe4ec, #f7e9ff, #e2c8f7, #f9f3ff);
+            background-size: 400% 400%;
+            animation: bgShift 12s ease infinite;
         }
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 30% 50%, rgba(255, 182, 193, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 50%, rgba(176, 224, 230, 0.1) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
-        html {
-            scrollbar-width: thin;
-            scrollbar-color: #ffb6c1 rgba(22, 33, 62, 0.3);
-        }
-        body::-webkit-scrollbar {
-            width: 10px;
-        }
-        body::-webkit-scrollbar-track {
-            background: rgba(22, 33, 62, 0.3);
-            border-radius: 10px;
-        }
-        body::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #ffb6c1 0%, #ffc0cb 100%);
-            border-radius: 10px;
-            border: 2px solid rgba(22, 33, 62, 0.3);
-        }
-        body::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #ffc0cb 0%, #ffb6c1 100%);
-        }
+
+        /* Soft glowing floating particles (hearts/lights) */
         .bg-animation-container {
             position: fixed;
             top: 0;
@@ -126,168 +81,88 @@
             background: radial-gradient(circle, rgba(255, 182, 193, 0.8) 0%, rgba(255, 192, 203, 0.4) 100%);
             border-radius: 50%;
             animation: floatUp 20s infinite ease-in-out, pulse 4s infinite ease-in-out;
-            filter: blur(1px);
+            filter: blur(2px);
         }
-        .orb:nth-child(1) { 
-            width: 8px; height: 8px; left: 15%; 
-            animation-duration: 18s, 3.5s; 
-            animation-delay: 0s, -1s;
-        }
-        .orb:nth-child(2) { 
-            width: 6px; height: 6px; left: 35%; 
-            animation-duration: 22s, 4.5s; 
-            animation-delay: -5s, -2s;
-        }
-        .orb:nth-child(3) { 
-            width: 10px; height: 10px; left: 55%; 
-            animation-duration: 16s, 3s; 
-            animation-delay: -2s, -1.5s;
-        }
-        .orb:nth-child(4) { 
-            width: 7px; height: 7px; left: 75%; 
-            animation-duration: 20s, 4s; 
-            animation-delay: -8s, -0.5s;
-        }
-        .orb:nth-child(5) { 
-            width: 9px; height: 9px; left: 90%; 
-            animation-duration: 19s, 5s; 
-            animation-delay: -3s, -2.5s;
-        }
-        .orb:nth-child(6) { 
-            width: 5px; height: 5px; left: 25%; 
-            animation-duration: 24s, 3.8s; 
-            animation-delay: -10s, -1.8s;
-        }
-        .orb:nth-child(7) { 
-            width: 8px; height: 8px; left: 65%; 
-            animation-duration: 17s, 4.2s; 
-            animation-delay: -6s, -3s;
-        }
+
+        .orb:nth-child(1) { width: 8px; height: 8px; left: 15%; animation-duration: 18s, 3.5s; animation-delay: 0s, -1s; }
+        .orb:nth-child(2) { width: 6px; height: 6px; left: 35%; animation-duration: 22s, 4.5s; animation-delay: -5s, -2s; }
+        .orb:nth-child(3) { width: 10px; height: 10px; left: 55%; animation-duration: 16s, 3s; animation-delay: -2s, -1.5s; }
+        .orb:nth-child(4) { width: 7px; height: 7px; left: 75%; animation-duration: 20s, 4s; animation-delay: -8s, -0.5s; }
+        .orb:nth-child(5) { width: 9px; height: 9px; left: 90%; animation-duration: 19s, 5s; animation-delay: -3s, -2.5s; }
+        .orb:nth-child(6) { width: 5px; height: 5px; left: 25%; animation-duration: 24s, 3.8s; animation-delay: -10s, -1.8s; }
+        .orb:nth-child(7) { width: 8px; height: 8px; left: 65%; animation-duration: 17s, 4.2s; animation-delay: -6s, -3s; }
+
+        /* 🪄 Letter container unchanged but added glow */
         .letter-container {
             max-width: 750px;
             margin: 0 auto;
-            background: linear-gradient(145deg, rgba(255, 250, 245, 0.95) 0%, rgba(255, 245, 247, 0.95) 100%);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(14px);
             padding: 50px 60px;
-            border-radius: 12px;
-            box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3),
-                        0 5px 20px rgba(255, 182, 193, 0.2),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            border-radius: 18px;
+            box-shadow: 0 15px 50px rgba(255, 105, 180, 0.25), inset 0 0 15px rgba(255, 255, 255, 0.1);
             animation: fadeIn 1.5s ease-out, gentleFloat 6s ease-in-out infinite 1.5s;
             position: relative;
             z-index: 2;
             border: 1px solid rgba(255, 182, 193, 0.3);
         }
-        .letter-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, #ffb6c1, #ffc0cb, #ffb6c1, transparent);
-            border-radius: 12px 12px 0 0;
-        }
-        
-        /* === CSS FIX: NEW TITLE CONTAINER === */
+
         .title-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px; /* Space between text and emoji */
-            /* Moved from h1 */
+            gap: 10px;
             margin-bottom: 35px;
             padding-bottom: 25px;
             border-bottom: 2px solid rgba(255, 182, 193, 0.3);
             position: relative;
         }
 
-        .title-container::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #e91e63, transparent);
-            animation: shimmer 3s infinite linear 2.5s;
-        }
-        /* === END FIX === */
-
         h1 {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Great Vibes', cursive;
             font-size: 3.2em;
-            font-weight: 600;
-            font-style: italic;
-            background: linear-gradient(135deg, #e91e63 0%, #ff6b9d 50%, #ffc0cb 100%);
+            background: linear-gradient(135deg, #e91e63 0%, #ff7ea9 50%, #ffc0cb 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            /* text-align: center; <-- Removed */
-            /* margin-bottom: 35px; <-- Moved */
-            /* padding-bottom: 25px; <-- Moved */
-            /* border-bottom: ...; <-- Moved */
-            opacity: 0;
-            animation: titleFadeIn 1.2s ease-out 1.5s forwards;
-            /* position: relative; <-- Moved */
             letter-spacing: 1px;
+            animation: fadeIn 1.5s ease-out 1s forwards;
+            opacity: 0;
         }
 
-        /* h1::after is now .title-container::after */
-        h1::after {
-           display: none;
-        }
-        
-        /* === CSS FIX: NEW EMOJI STYLE === */
         .header-emoji {
-            font-size: 2.8em; /* Slightly smaller than h1 */
+            font-size: 2.8em;
+            animation: fadeIn 1.5s ease-out 1.5s forwards;
             opacity: 0;
-            animation: titleFadeIn 1.2s ease-out 1.5s forwards;
-            /* Aligns emoji vertically with the text */
-            transform: translateY(4px); 
-            /* Undoes the gradient CSS */
-            -webkit-text-fill-color: initial;
-            background-clip: initial;
-            background: none;
         }
-        /* === END FIX === */
 
         .letter-container p {
             opacity: 0;
             font-size: 1.15em;
             margin-bottom: 28px;
-            min-height: 1.5em;
             color: #3d3d3d;
             text-align: justify;
             text-indent: 2em;
             transition: all 0.3s ease;
         }
+
         .letter-container p:hover {
-            color: #2d2d2d;
             transform: translateX(5px);
+            color: #222;
         }
+
         .signature {
             font-family: 'Dancing Script', cursive;
-            font-size: 2.3em;
+            font-size: 2.5em;
             font-weight: 700;
-            background: linear-gradient(135deg, #d4869c 0%, #e91e63 100%);
+            background: linear-gradient(135deg, #ff6699 0%, #e91e63 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
             text-align: right;
             margin-top: 60px;
             opacity: 0;
             transition: opacity 2s ease;
-            position: relative;
         }
-        .signature::before {
-            content: '~';
-            position: absolute;
-            left: -40px;
-            opacity: 0.4;
-            font-size: 0.8em;
-        }
+
         .typing::after {
             content: '|';
             animation: blink 1s step-end infinite;
@@ -295,13 +170,13 @@
             margin-left: 3px;
             font-weight: bold;
         }
-        
-        /* All button styles are unchanged */
+
         .button-nav-container {
             margin-top: 50px;
             display: flex;
             justify-content: flex-end;
         }
+
         .nav-btn {
             display: inline-flex;
             align-items: center;
@@ -309,192 +184,105 @@
             font-family: 'Merriweather', serif;
             font-size: 1.05em;
             color: #e91e63;
-            background: linear-gradient(135deg, rgba(255, 182, 193, 0.15) 0%, rgba(255, 192, 203, 0.25) 100%);
-            backdrop-filter: blur(5px);
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.25) 0%, rgba(255, 192, 203, 0.35) 100%);
+            backdrop-filter: blur(6px);
             border: 2px solid #ffb6c1;
             border-radius: 8px;
             padding: 14px 24px;
             text-decoration: none;
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-        .nav-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 182, 193, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s ease, height 0.6s ease;
-        }
-        .nav-btn:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-        .nav-btn:hover {
-            background: linear-gradient(135deg, rgba(233, 30, 99, 0.9) 0%, rgba(255, 107, 157, 0.9) 100%);
-            color: #fff;
-            border-color: #e91e63;
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(233, 30, 99, 0.4);
-        }
-        .nav-btn:active {
-            transform: translateY(-1px) scale(0.98);
-            box-shadow: 0 3px 10px rgba(233, 30, 99, 0.3);
-        }
-        .nav-btn span {
-            position: relative;
-            z-index: 1;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.25);
         }
 
-        /* Mobile styles */
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #ff7fa4 0%, #e91e63 100%);
+            color: #fff;
+            border-color: #e91e63;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+        }
+
         @media (max-width: 768px) {
-            body {
-                padding: 20px 10px;
-            }
-            .letter-container {
-                max-width: 95%;
-                margin: 20px auto;
-                padding: 35px 25px;
-                animation: fadeIn 1.5s ease-out;
-            }
-            
-            /* === CSS FIX: Mobile Title === */
-            .title-container {
-                gap: 5px; /* Less gap on mobile */
-                margin-bottom: 25px;
-                padding-bottom: 20px;
-            }
-            h1 {
-                font-size: 2.3em; 
-                /* Remove all margin/padding from h1 */
-                margin-bottom: 0;
-                padding-bottom: 0;
-            }
-            .header-emoji {
-                font-size: 2.0em; /* Smaller on mobile */
-                transform: translateY(3px);
-            }
-            /* === END FIX === */
-            
-            .letter-container p {
-                font-size: 1.05em;
-                text-indent: 1.5em;
-            }
-            .signature {
-                font-size: 2em;
-                margin-top: 40px;
-            }
-            .signature::before {
-                left: -30px;
-                font-size: 0.7em;
-            }
-            .button-nav-container {
-                justify-content: center;
-                margin-top: 40px;
-            }
-            .nav-btn {
-                width: 100%;
-                justify-content: center;
-                font-size: 1em;
-                padding: 15px 20px;
-            }
-            .bg-animation-container {
-                display: none;
-            }
+            body { padding: 20px 10px; }
+            .letter-container { max-width: 95%; padding: 35px 25px; }
+            h1 { font-size: 2.5em; }
+            .header-emoji { font-size: 2em; }
         }
     </style>
 </head>
+
 <body>
     <div class="bg-animation-container">
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
+        <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+        <div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="orb"></div>
     </div>
-    
+
     <div class="letter-container">
         <div class="title-container">
             <h1>Kyun re Billu Badmash</h1>
             <span class="header-emoji">😒</span>
         </div>
+
         <p>Kaha bhag gaya tha us raat ko beech me heinnn...😒.</p>
         <p>Sharam nhi aati Dusht, Me beechara............. darr gaya thaa😒.</p>
         <p>Tumm... hamesha aisa hi karti ho 😒, beech me adhna sunke gusse me pagal hoke😏, nikal leti ho 😵‍💫</p>
         <p>Janta hu ki me shyd abtak ka sabse ajeeb, alag or tumhari nazar me bewakoof ladka hu. But you cannot Disagree ki mere jaisa koi hai hi nhi😒😎</p>
-        <p>To mene socha kyun na kuch alag kiya jaaye, 😏😵‍💫</p>
+        <p>To mene socha kyun na kuch alag kiya jaaye, 🙂🤏🕶😎</p>
         <p>Arey yr me hamesha rayeta faila deta hu, tumhari bhasha me mene bhasad macha di, direct tumse baat karne me, ya kabhi kabhi kisi or se bhi  😂, ab wo tanya wala yaad karo ki mene bakkk diya tha ki "Oye Tanya arindam ko girlfriend ki jaroorat h"😵‍💫 or kya hi sunaya tha usne mujheee 😂 , mere me sachma dimag kaafi km h, aise logon se baat karne me 🐣🐥 </p>
         <p>Ab dekho me Tumhari Tareef karne ke mood me aya tha or kar kuch diya mene 🐥, kyuki tum faltoo sawal karti ho or tension lene lagti ho to meri fat jaati h, kabh bada houngaaa mee 🐁🐁, ab bina chat tum wo padho jo me batane wala tha 😒</p>
-<p>Or tareef bhi bs isiliye taaki tum accha feel karo, kitni tension rehti h tumhare pass jo tum batati nhi. Meri ek drop wali dost to depression me chali gai thi. Tumhari chinta hoti thi isiliye me accha feel karane ki kosish karta tha, tareef karke 🙂‍↕️ Tumne us din bola ki shyd tum depression me ho to me to dar hi Gaya tha🫠, fir tumne bola ki tumhe kapde select karne ki tension h.</p>
-        <p>make sure you read till end🐣 And pleaseee.. keep this thing PRIVATE</p>
+        <p>Or tareef bhi bs isiliye taaki tum accha feel karo, kitni tension rehti h tumhare pass jo tum batati nhi. Meri ek drop wali dost to depression me chali gai thi. Tumhari chinta hoti thi isiliye me accha feel karane ki kosish karta tha, tareef karke 🙂‍↕️ Tumne us din bola ki shyd tum depression me ho to me to dar hi Gaya tha🫠, fir tumne bola ki tumhe kapde select karne ki tension h.</p>
+        <p>Make sure you read till end🐣 And pleaseee.. keep this thing PRIVATE</p>
 
         <p class="signature">- By an amazing Badmosh Baccha Btw</p>
-        
+
         <div class="button-nav-container">
-            <a href="page2.html" class="nav-btn">
-                <span>What I was About To say</span>
-                <span>→</span>
-            </a>
+            <a href="page2.html" class="nav-btn"><span>What I was About To say</span><span>→</span></a>
         </div>
     </div>
 
     <script>
-        // Javascript is unchanged
         document.addEventListener('DOMContentLoaded', function() {
             const typeSpeed = 45;
             const initialDelay = 1800;
             const paragraphs = document.querySelectorAll('.letter-container p:not(.signature)');
             const signature = document.querySelector('.signature');
             let originalTexts = [];
-            
+
             paragraphs.forEach(p => {
                 originalTexts.push(p.textContent);
                 p.textContent = '';
             });
-            
+
             let pIndex = 0;
-            
+
             function typeAllParagraphs() {
                 if (pIndex < paragraphs.length) {
                     const currentP = paragraphs[pIndex];
                     const currentText = originalTexts[pIndex];
                     currentP.style.opacity = '1';
                     currentP.classList.add('typing');
-                    
+
                     typeWriter(currentP, currentText, 0, () => {
                         currentP.classList.remove('typing');
                         pIndex++;
                         setTimeout(typeAllParagraphs, 300);
                     });
                 } else {
-                    setTimeout(() => {
-                        signature.style.opacity = '1';
-                    }, 500);
+                    setTimeout(() => { signature.style.opacity = '1'; }, 500);
                 }
             }
-            
+
             function typeWriter(element, text, charIndex, onComplete) {
                 if (charIndex < text.length) {
                     element.textContent += text.charAt(charIndex);
                     charIndex++;
                     const nextDelay = text.charAt(charIndex) === '.' ? typeSpeed * 3 : typeSpeed;
                     setTimeout(() => typeWriter(element, text, charIndex, onComplete), nextDelay);
-                } else {
-                    if (onComplete) onComplete();
-                }
+                } else if (onComplete) onComplete();
             }
-            
+
             setTimeout(typeAllParagraphs, initialDelay);
         });
     </script>
 </body>
-
 </html>
