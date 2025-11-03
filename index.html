@@ -16,7 +16,7 @@
             box-sizing: border-box;
         }
 
-        /* All animations are unchanged */
+        /* All animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -68,7 +68,7 @@
             100% { background-position: 1000px 0; }
         }
 
-        /* All body, scrollbar, and orb styles are unchanged */
+        /* Body, scrollbar, and orb styles */
         body {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             font-family: 'Merriweather', serif;
@@ -163,6 +163,18 @@
             animation-duration: 17s, 4.2s; 
             animation-delay: -6s, -3s;
         }
+
+        /* Floating Emoji Animation Style */
+        .floating-emoji {
+            position: absolute;
+            font-size: 2.5em; /* Adjust size as you like */
+            user-select: none; /* Prevents selecting the emoji */
+            opacity: 0; /* Start hidden, animation will fade it in */
+            z-index: 1;
+            /* Animation properties will be added by JavaScript */
+        }
+
+        /* Letter Styles */
         .letter-container {
             max-width: 750px;
             margin: 0 auto;
@@ -189,13 +201,12 @@
             border-radius: 12px 12px 0 0;
         }
         
-        /* === CSS FIX: NEW TITLE CONTAINER === */
+        /* Title Container */
         .title-container {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 10px; /* Space between text and emoji */
-            /* Moved from h1 */
             margin-bottom: 35px;
             padding-bottom: 25px;
             border-bottom: 2px solid rgba(255, 182, 193, 0.3);
@@ -213,7 +224,6 @@
             background: linear-gradient(90deg, transparent, #e91e63, transparent);
             animation: shimmer 3s infinite linear 2.5s;
         }
-        /* === END FIX === */
 
         h1 {
             font-family: 'Playfair Display', serif;
@@ -224,34 +234,25 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            /* text-align: center; <-- Removed */
-            /* margin-bottom: 35px; <-- Moved */
-            /* padding-bottom: 25px; <-- Moved */
-            /* border-bottom: ...; <-- Moved */
             opacity: 0;
             animation: titleFadeIn 1.2s ease-out 1.5s forwards;
-            /* position: relative; <-- Moved */
             letter-spacing: 1px;
         }
 
-        /* h1::after is now .title-container::after */
         h1::after {
            display: none;
         }
         
-        /* === CSS FIX: NEW EMOJI STYLE === */
+        /* Header Emoji Style */
         .header-emoji {
             font-size: 2.8em; /* Slightly smaller than h1 */
             opacity: 0;
             animation: titleFadeIn 1.2s ease-out 1.5s forwards;
-            /* Aligns emoji vertically with the text */
-            transform: translateY(4px); 
-            /* Undoes the gradient CSS */
-            -webkit-text-fill-color: initial;
+            transform: translateY(4px); /* Aligns emoji vertically */
+            -webkit-text-fill-color: initial; /* Undoes gradient */
             background-clip: initial;
             background: none;
         }
-        /* === END FIX === */
 
         .letter-container p {
             opacity: 0;
@@ -296,7 +297,7 @@
             font-weight: bold;
         }
         
-        /* All button styles are unchanged */
+        /* Button styles */
         .button-nav-container {
             margin-top: 50px;
             display: flex;
@@ -361,10 +362,9 @@
                 max-width: 95%;
                 margin: 20px auto;
                 padding: 35px 25px;
-                animation: fadeIn 1.5s ease-out;
+                animation: fadeIn 1.5s ease-out; /* Disable float on mobile */
             }
             
-            /* === CSS FIX: Mobile Title === */
             .title-container {
                 gap: 5px; /* Less gap on mobile */
                 margin-bottom: 25px;
@@ -372,7 +372,6 @@
             }
             h1 {
                 font-size: 2.3em; 
-                /* Remove all margin/padding from h1 */
                 margin-bottom: 0;
                 padding-bottom: 0;
             }
@@ -380,7 +379,6 @@
                 font-size: 2.0em; /* Smaller on mobile */
                 transform: translateY(3px);
             }
-            /* === END FIX === */
             
             .letter-container p {
                 font-size: 1.05em;
@@ -405,12 +403,13 @@
                 padding: 15px 20px;
             }
             .bg-animation-container {
-                display: none;
+                display: none; /* Disable orbs and floating emoji on mobile */
             }
         }
     </style>
 </head>
 <body>
+    
     <div class="bg-animation-container">
         <div class="orb"></div>
         <div class="orb"></div>
@@ -419,13 +418,14 @@
         <div class="orb"></div>
         <div class="orb"></div>
         <div class="orb"></div>
-    </div>
+        </div>
     
     <div class="letter-container">
         <div class="title-container">
             <h1>Kyun re Billu Badmash</h1>
             <span class="header-emoji">😒</span>
         </div>
+        
         <p>Kaha bhag gaya tha us raat ko beech me heinnn...😒.</p>
         <p>Sharam nhi aati Dusht, Me beechara............. darr gaya thaa😒.</p>
         <p>Tumm... hamesha aisa hi karti ho 😒, beech me adhna sunke gusse me pagal hoke😏, nikal leti ho 😵‍💫</p>
@@ -433,7 +433,7 @@
         <p>To mene socha kyun na kuch alag kiya jaaye, 😏😵‍💫</p>
         <p>Arey yr me hamesha rayeta faila deta hu, tumhari bhasha me mene bhasad macha di, direct tumse baat karne me, ya kabhi kabhi kisi or se bhi  😂, ab wo tanya wala yaad karo ki mene bakkk diya tha ki "Oye Tanya arindam ko girlfriend ki jaroorat h"😵‍💫 or kya hi sunaya tha usne mujheee 😂 , mere me sachma dimag kaafi km h, aise logon se baat karne me 🐣🐥 </p>
         <p>Ab dekho me Tumhari Tareef karne ke mood me aya tha or kar kuch diya mene 🐥, kyuki tum faltoo sawal karti ho or tension lene lagti ho to meri fat jaati h, kabh bada houngaaa mee 🐁🐁, ab bina chat tum wo padho jo me batane wala tha 😒</p>
-<p>Or tareef bhi bs isiliye taaki tum accha feel karo, kitni tension rehti h tumhare pass jo tum batati nhi. Meri ek drop wali dost to depression me chali gai thi. Tumhari chinta hoti thi isiliye me accha feel karane ki kosish karta tha, tareef karke 🙂‍↕️ Tumne us din bola ki shyd tum depression me ho to me to dar hi Gaya tha🫠, fir tumne bola ki tumhe kapde select karne ki tension h.</p>
+        <p>Or tareef bhi bs isiliye taaki tum accha feel karo, kitni tension rehti h tumhare pass jo tum batati nhi. Meri ek drop wali dost to depression me chali gai thi. Tumhari chinta hoti thi isiliye me accha feel karane ki kosish karta tha, tareef karke 🙂‍↕️ Tumne us din bola ki shyd tum depression me ho to me to dar hi Gaya tha🫠, fir tumne bola ki tumhe kapde select karne ki tension h.</p>
         <p>make sure you read till end🐣 And pleaseee.. keep this thing PRIVATE</p>
 
         <p class="signature">- By an amazing Badmosh Baccha Btw</p>
@@ -447,21 +447,27 @@
     </div>
 
     <script>
-        // Javascript is unchanged
         document.addEventListener('DOMContentLoaded', function() {
-            const typeSpeed = 45;
-            const initialDelay = 1800;
+            // --- Configuration ---
+            const typeSpeed = 45; // Speed of typing, in milliseconds
+            const initialDelay = 1800; // Wait time before typing starts
+            
+            // --- Element Selection ---
             const paragraphs = document.querySelectorAll('.letter-container p:not(.signature)');
             const signature = document.querySelector('.signature');
             let originalTexts = [];
             
+            // Store original text and clear paragraphs for typing effect
             paragraphs.forEach(p => {
                 originalTexts.push(p.textContent);
                 p.textContent = '';
             });
             
-            let pIndex = 0;
+            let pIndex = 0; // Current paragraph index
             
+            /**
+             * Main function to start typing all paragraphs sequentially.
+             */
             function typeAllParagraphs() {
                 if (pIndex < paragraphs.length) {
                     const currentP = paragraphs[pIndex];
@@ -469,33 +475,60 @@
                     currentP.style.opacity = '1';
                     currentP.classList.add('typing');
                     
+                    // Start typing the current paragraph
                     typeWriter(currentP, currentText, 0, () => {
-                        currentP.classList.remove('typing');
+                        currentP.classList.remove('typing'); // Remove blinking cursor
                         pIndex++;
-                        setTimeout(typeAllParagraphs, 300);
+                        setTimeout(typeAllParagraphs, 300); // Short delay before next paragraph
                     });
                 } else {
+                    // All paragraphs are done, reveal signature
                     setTimeout(() => {
                         signature.style.opacity = '1';
                     }, 500);
+
+                    // Start the floating emoji animation
+                    setTimeout(createFloatingEmojis, 1000); 
                 }
             }
             
+            /**
+             * Recursive function to type out a single string character by character.
+             * @param {Element} element - The HTML element to type into.
+             * @param {string} text - The full text to type.
+             * @param {number} charIndex - The current character index.
+             * @param {Function} onComplete - Callback function to run when typing is finished.
+             */
             function typeWriter(element, text, charIndex, onComplete) {
                 if (charIndex < text.length) {
                     element.textContent += text.charAt(charIndex);
                     charIndex++;
+                    // Pause longer for punctuation
                     const nextDelay = text.charAt(charIndex) === '.' ? typeSpeed * 3 : typeSpeed;
                     setTimeout(() => typeWriter(element, text, charIndex, onComplete), nextDelay);
                 } else {
-                    if (onComplete) onComplete();
+                    if (onComplete) onComplete(); // Call the callback
                 }
             }
+
+            /**
+             * Creates and animates the floating emojis (😭, 🫠, 🥹)
+             */
+            function createFloatingEmojis() {
+                const container = document.querySelector('.bg-animation-container');
+                if (!container) return; // Exit if container not found
+
+                const emojis = ['😭', '🫠', '🥹'];
+                const numEmojis = 12; // Total number of emojis to float up
+
+                for (let i = 0; i < numEmojis; i++) {
+                    const emojiEl = document.createElement('div');
+                    emojiEl.classList.add('floating-emoji');
+                    
+                    // Cycle through the emojis array
+                    emojiEl.textContent = emojis[i % emojis.length];
+
+                    // Random horizontal position (from 5% to 95% of the width)
+                    emojiEl.style.left = `${Math.random() * 90 + 5}%`;
+                    
             
-            setTimeout(typeAllParagraphs, initialDelay);
-        });
-    </script>
-</body>
-
-</html>
-
