@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Letter for You</title>
-    
+
+    <!-- Fonts: same + added romantic handwritten touch -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Added a more handwritten-style font -->
-    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Dancing+Script:wght@500;700&family=Playfair+Display:ital,wght@0,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,400&family=Dancing+Script:wght@500;700&family=Playfair+Display:ital,wght@0,400;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -30,76 +30,81 @@
             50%, 99% { opacity: 0; } 
         }
         @keyframes floatUp {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+            0% { transform: translateY(100vh) translateX(0) scale(0); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-20vh) translateX(30px) scale(1.5); opacity: 0; }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; box-shadow: 0 0 15px rgba(255, 182, 193, 0.4); }
+            50% { opacity: 0.9; box-shadow: 0 0 30px rgba(255, 182, 193, 0.8), 0 0 45px rgba(255, 182, 193, 0.5); }
         }
         @keyframes shimmer {
             0% { background-position: -1000px 0; }
             100% { background-position: 1000px 0; }
         }
-        @keyframes auroraMove {
+
+        /* 🌸 Updated background with animated dreamy gradient */
+        @keyframes bgShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
         body {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
             font-family: 'Merriweather', serif;
+            line-height: 1.9;
             color: #2d2d2d;
             margin: 0;
             padding: 40px 20px;
             overflow-x: hidden;
             min-height: 100vh;
             position: relative;
-        }
-
-        /* Aurora glow effect */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: linear-gradient(270deg, rgba(255,182,193,0.2), rgba(176,224,230,0.2), rgba(255,192,203,0.2));
+            background: linear-gradient(-45deg, #ffe4ec, #f7e9ff, #e2c8f7, #f9f3ff);
             background-size: 400% 400%;
-            animation: auroraMove 10s ease infinite;
-            z-index: 0;
+            animation: bgShift 12s ease infinite;
         }
 
-        /* Floating hearts */
-        .heart {
+        /* Soft glowing floating particles (hearts/lights) */
+        .bg-animation-container {
             position: fixed;
-            width: 15px;
-            height: 15px;
-            background: rgba(255,182,193,0.9);
-            transform: rotate(45deg);
-            animation: floatUp 10s infinite ease-in;
-            opacity: 0.7;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
             z-index: 1;
+            overflow: hidden;
         }
-        .heart::before,
-        .heart::after {
-            content: '';
+        .orb {
             position: absolute;
-            width: 15px;
-            height: 15px;
-            background: rgba(255,182,193,0.9);
+            background: radial-gradient(circle, rgba(255, 182, 193, 0.8) 0%, rgba(255, 192, 203, 0.4) 100%);
             border-radius: 50%;
+            animation: floatUp 20s infinite ease-in-out, pulse 4s infinite ease-in-out;
+            filter: blur(2px);
         }
-        .heart::before { top: -7px; left: 0; }
-        .heart::after { left: -7px; top: 0; }
 
+        .orb:nth-child(1) { width: 8px; height: 8px; left: 15%; animation-duration: 18s, 3.5s; animation-delay: 0s, -1s; }
+        .orb:nth-child(2) { width: 6px; height: 6px; left: 35%; animation-duration: 22s, 4.5s; animation-delay: -5s, -2s; }
+        .orb:nth-child(3) { width: 10px; height: 10px; left: 55%; animation-duration: 16s, 3s; animation-delay: -2s, -1.5s; }
+        .orb:nth-child(4) { width: 7px; height: 7px; left: 75%; animation-duration: 20s, 4s; animation-delay: -8s, -0.5s; }
+        .orb:nth-child(5) { width: 9px; height: 9px; left: 90%; animation-duration: 19s, 5s; animation-delay: -3s, -2.5s; }
+        .orb:nth-child(6) { width: 5px; height: 5px; left: 25%; animation-duration: 24s, 3.8s; animation-delay: -10s, -1.8s; }
+        .orb:nth-child(7) { width: 8px; height: 8px; left: 65%; animation-duration: 17s, 4.2s; animation-delay: -6s, -3s; }
+
+        /* 🪄 Letter container unchanged but added glow */
         .letter-container {
             max-width: 750px;
             margin: 0 auto;
-            background: linear-gradient(145deg, rgba(255, 250, 245, 0.95), rgba(255, 245, 247, 0.95));
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(14px);
             padding: 50px 60px;
-            border-radius: 12px;
-            box-shadow: 0 0 40px rgba(255, 182, 193, 0.3), 0 0 80px rgba(255, 192, 203, 0.2);
+            border-radius: 18px;
+            box-shadow: 0 15px 50px rgba(255, 105, 180, 0.25), inset 0 0 15px rgba(255, 255, 255, 0.1);
             animation: fadeIn 1.5s ease-out, gentleFloat 6s ease-in-out infinite 1.5s;
             position: relative;
             z-index: 2;
-            border: 1px solid rgba(255, 182, 193, 0.4);
+            border: 1px solid rgba(255, 182, 193, 0.3);
         }
 
         .title-container {
@@ -110,43 +115,46 @@
             margin-bottom: 35px;
             padding-bottom: 25px;
             border-bottom: 2px solid rgba(255, 182, 193, 0.3);
+            position: relative;
         }
 
         h1 {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Great Vibes', cursive;
             font-size: 3.2em;
-            background: linear-gradient(135deg, #e91e63, #ff6b9d, #ffc0cb);
+            background: linear-gradient(135deg, #e91e63 0%, #ff7ea9 50%, #ffc0cb 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            animation: fadeIn 1.5s ease-out 1s forwards;
             opacity: 0;
-            animation: fadeIn 1.2s ease-out 1.5s forwards;
         }
 
         .header-emoji {
             font-size: 2.8em;
+            animation: fadeIn 1.5s ease-out 1.5s forwards;
             opacity: 0;
-            animation: fadeIn 1.2s ease-out 1.5s forwards;
         }
 
         .letter-container p {
-            font-family: 'Indie Flower', cursive;
             opacity: 0;
-            font-size: 1.3em;
+            font-size: 1.15em;
             margin-bottom: 28px;
-            color: #333;
+            color: #3d3d3d;
             text-align: justify;
+            text-indent: 2em;
             transition: all 0.3s ease;
         }
+
         .letter-container p:hover {
-            transform: scale(1.02);
-            color: #000;
+            transform: translateX(5px);
+            color: #222;
         }
 
         .signature {
             font-family: 'Dancing Script', cursive;
-            font-size: 2.3em;
+            font-size: 2.5em;
             font-weight: 700;
-            background: linear-gradient(135deg, #d4869c, #e91e63);
+            background: linear-gradient(135deg, #ff6699 0%, #e91e63 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: right;
@@ -159,41 +167,62 @@
             content: '|';
             animation: blink 1s step-end infinite;
             color: #e91e63;
+            margin-left: 3px;
+            font-weight: bold;
+        }
+
+        .button-nav-container {
+            margin-top: 50px;
+            display: flex;
+            justify-content: flex-end;
         }
 
         .nav-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            font-family: 'Merriweather', serif;
+            font-size: 1.05em;
             color: #e91e63;
-            background: rgba(255, 182, 193, 0.15);
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.25) 0%, rgba(255, 192, 203, 0.35) 100%);
+            backdrop-filter: blur(6px);
             border: 2px solid #ffb6c1;
             border-radius: 8px;
             padding: 14px 24px;
             text-decoration: none;
-            transition: 0.4s;
-            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.2);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.25);
         }
+
         .nav-btn:hover {
-            background: linear-gradient(135deg, #e91e63, #ff6b9d);
+            background: linear-gradient(135deg, #ff7fa4 0%, #e91e63 100%);
             color: #fff;
+            border-color: #e91e63;
             transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 20px 10px; }
+            .letter-container { max-width: 95%; padding: 35px 25px; }
+            h1 { font-size: 2.5em; }
+            .header-emoji { font-size: 2em; }
         }
     </style>
 </head>
+
 <body>
-    <!-- Floating hearts -->
-    <div class="heart" style="left:10%;animation-delay:0s;"></div>
-    <div class="heart" style="left:30%;animation-delay:3s;"></div>
-    <div class="heart" style="left:50%;animation-delay:6s;"></div>
-    <div class="heart" style="left:70%;animation-delay:2s;"></div>
-    <div class="heart" style="left:90%;animation-delay:4s;"></div>
+    <div class="bg-animation-container">
+        <div class="orb"></div><div class="orb"></div><div class="orb"></div>
+        <div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="orb"></div>
+    </div>
 
     <div class="letter-container">
         <div class="title-container">
             <h1>Kyun re Billu Badmash</h1>
             <span class="header-emoji">😒</span>
         </div>
+
         <p>Kaha bhag gaya tha us raat ko beech me heinnn...😒.</p>
         <p>Sharam nhi aati Dusht, Me beechara............. darr gaya thaa😒.</p>
         <p>Tumm... hamesha aisa hi karti ho 😒, beech me adhna sunke gusse me pagal hoke😏, nikal leti ho 😵‍💫</p>
@@ -205,11 +234,9 @@
         <p>make sure you read till end🐣 And pleaseee.. keep this thing PRIVATE</p>
 
         <p class="signature">- By an amazing Badmosh Baccha Btw</p>
-        
-        <div class="button-nav-container" style="text-align:right;">
-            <a href="page2.html" class="nav-btn">
-                <span>What I was About To say</span> →
-            </a>
+
+        <div class="button-nav-container">
+            <a href="page2.html" class="nav-btn"><span>What I was About To say</span><span>→</span></a>
         </div>
     </div>
 
@@ -220,44 +247,40 @@
             const paragraphs = document.querySelectorAll('.letter-container p:not(.signature)');
             const signature = document.querySelector('.signature');
             let originalTexts = [];
-            
+
             paragraphs.forEach(p => {
                 originalTexts.push(p.textContent);
                 p.textContent = '';
             });
-            
+
             let pIndex = 0;
-            
+
             function typeAllParagraphs() {
                 if (pIndex < paragraphs.length) {
                     const currentP = paragraphs[pIndex];
                     const currentText = originalTexts[pIndex];
                     currentP.style.opacity = '1';
                     currentP.classList.add('typing');
-                    
+
                     typeWriter(currentP, currentText, 0, () => {
                         currentP.classList.remove('typing');
                         pIndex++;
                         setTimeout(typeAllParagraphs, 300);
                     });
                 } else {
-                    setTimeout(() => {
-                        signature.style.opacity = '1';
-                    }, 500);
+                    setTimeout(() => { signature.style.opacity = '1'; }, 500);
                 }
             }
-            
+
             function typeWriter(element, text, charIndex, onComplete) {
                 if (charIndex < text.length) {
                     element.textContent += text.charAt(charIndex);
                     charIndex++;
                     const nextDelay = text.charAt(charIndex) === '.' ? typeSpeed * 3 : typeSpeed;
                     setTimeout(() => typeWriter(element, text, charIndex, onComplete), nextDelay);
-                } else if (onComplete) {
-                    onComplete();
-                }
+                } else if (onComplete) onComplete();
             }
-            
+
             setTimeout(typeAllParagraphs, initialDelay);
         });
     </script>
