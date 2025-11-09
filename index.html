@@ -1,288 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Letter for You</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Letter for You</title>
 
-    <!-- Fonts: same + added romantic handwritten touch -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,400&family=Dancing+Script:wght@500;700&family=Playfair+Display:ital,wght@0,400;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400&family=Great+Vibes&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes gentleFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-12px) rotate(1deg); }
-        }
-        @keyframes blink { 
-            0%, 49%, 100% { opacity: 1; }
-            50%, 99% { opacity: 0; } 
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) translateX(0) scale(0); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.6; }
-            100% { transform: translateY(-20vh) translateX(30px) scale(1.5); opacity: 0; }
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.4; box-shadow: 0 0 15px rgba(255, 182, 193, 0.4); }
-            50% { opacity: 0.9; box-shadow: 0 0 30px rgba(255, 182, 193, 0.8), 0 0 45px rgba(255, 182, 193, 0.5); }
-        }
-        @keyframes shimmer {
-            0% { background-position: -1000px 0; }
-            100% { background-position: 1000px 0; }
-        }
+    /* 🌸 Pink dreamy background */
+    body {
+      font-family: 'Merriweather', serif;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7, #ffd6f5);
+      background-size: 400% 400%;
+      animation: bgShift 12s ease infinite;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      overflow-x: hidden;
+      color: #3d3d3d;
+    }
 
-        /* 🌸 Updated background with animated dreamy gradient */
-        @keyframes bgShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+    @keyframes bgShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-        body {
-            font-family: 'Merriweather', serif;
-            line-height: 1.9;
-            color: #2d2d2d;
-            margin: 0;
-            padding: 40px 20px;
-            overflow-x: hidden;
-            min-height: 100vh;
-            position: relative;
-            background: linear-gradient(-45deg, #ffe4ec, #f7e9ff, #e2c8f7, #f9f3ff);
-            background-size: 400% 400%;
-            animation: bgShift 12s ease infinite;
-        }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        /* Soft glowing floating particles (hearts/lights) */
-        .bg-animation-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            overflow: hidden;
-        }
-        .orb {
-            position: absolute;
-            background: radial-gradient(circle, rgba(255, 182, 193, 0.8) 0%, rgba(255, 192, 203, 0.4) 100%);
-            border-radius: 50%;
-            animation: floatUp 20s infinite ease-in-out, pulse 4s infinite ease-in-out;
-            filter: blur(2px);
-        }
+    @keyframes gentleFloat {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
 
-        .orb:nth-child(1) { width: 8px; height: 8px; left: 15%; animation-duration: 18s, 3.5s; animation-delay: 0s, -1s; }
-        .orb:nth-child(2) { width: 6px; height: 6px; left: 35%; animation-duration: 22s, 4.5s; animation-delay: -5s, -2s; }
-        .orb:nth-child(3) { width: 10px; height: 10px; left: 55%; animation-duration: 16s, 3s; animation-delay: -2s, -1.5s; }
-        .orb:nth-child(4) { width: 7px; height: 7px; left: 75%; animation-duration: 20s, 4s; animation-delay: -8s, -0.5s; }
-        .orb:nth-child(5) { width: 9px; height: 9px; left: 90%; animation-duration: 19s, 5s; animation-delay: -3s, -2.5s; }
-        .orb:nth-child(6) { width: 5px; height: 5px; left: 25%; animation-duration: 24s, 3.8s; animation-delay: -10s, -1.8s; }
-        .orb:nth-child(7) { width: 8px; height: 8px; left: 65%; animation-duration: 17s, 4.2s; animation-delay: -6s, -3s; }
+    /* ✨ Background floating sparkles */
+    .bg-animation-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
 
-        /* 🪄 Letter container unchanged but added glow */
-        .letter-container {
-            max-width: 750px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(14px);
-            padding: 50px 60px;
-            border-radius: 18px;
-            box-shadow: 0 15px 50px rgba(255, 105, 180, 0.25), inset 0 0 15px rgba(255, 255, 255, 0.1);
-            animation: fadeIn 1.5s ease-out, gentleFloat 6s ease-in-out infinite 1.5s;
-            position: relative;
-            z-index: 2;
-            border: 1px solid rgba(255, 182, 193, 0.3);
-        }
+    .orb {
+      position: absolute;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 192, 203, 0) 70%);
+      border-radius: 50%;
+      animation: floatUp 20s infinite ease-in-out, pulse 4s infinite ease-in-out;
+      filter: blur(2px);
+    }
 
-        .title-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 35px;
-            padding-bottom: 25px;
-            border-bottom: 2px solid rgba(255, 182, 193, 0.3);
-            position: relative;
-        }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(0); opacity: 0; }
+      50% { opacity: 0.8; }
+      100% { transform: translateY(-20vh) scale(1.3); opacity: 0; }
+    }
 
-        h1 {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3.2em;
-            background: linear-gradient(135deg, #e91e63 0%, #ff7ea9 50%, #ffc0cb 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 1px;
-            animation: fadeIn 1.5s ease-out 1s forwards;
-            opacity: 0;
-        }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
 
-        .header-emoji {
-            font-size: 2.8em;
-            animation: fadeIn 1.5s ease-out 1.5s forwards;
-            opacity: 0;
-        }
+    .orb:nth-child(1){ width:12px;height:12px;left:10%;animation-delay:-2s;}
+    .orb:nth-child(2){ width:10px;height:10px;left:40%;animation-delay:-5s;}
+    .orb:nth-child(3){ width:8px;height:8px;left:70%;animation-delay:-8s;}
+    .orb:nth-child(4){ width:14px;height:14px;left:85%;animation-delay:-3s;}
+    .orb:nth-child(5){ width:9px;height:9px;left:30%;animation-delay:-6s;}
 
-        .letter-container p {
-            opacity: 0;
-            font-size: 1.15em;
-            margin-bottom: 28px;
-            color: #3d3d3d;
-            text-align: justify;
-            text-indent: 2em;
-            transition: all 0.3s ease;
-        }
+    /* 💌 Letter box with internal animated gradient */
+    .letter-container {
+      position: relative;
+      max-width: 750px;
+      width: 100%;
+      border-radius: 20px;
+      padding: 45px 30px;
+      background: linear-gradient(135deg, rgba(255, 240, 245, 0.9), rgba(255, 220, 230, 0.85));
+      box-shadow: 0 8px 40px rgba(233, 30, 99, 0.25);
+      border: 1px solid rgba(255, 182, 193, 0.4);
+      backdrop-filter: blur(12px);
+      z-index: 1;
+      animation: fadeIn 1.4s ease forwards, gentleFloat 6s ease-in-out infinite 2s;
+      overflow: hidden;
+    }
 
-        .letter-container p:hover {
-            transform: translateX(5px);
-            color: #222;
-        }
+    /* ✨ Animated background glow inside letter */
+    .letter-container::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,192,203,0.25) 0%, transparent 70%),
+                  radial-gradient(circle at 70% 70%, rgba(255,182,193,0.25) 0%, transparent 70%);
+      animation: innerGlow 10s ease-in-out infinite;
+      z-index: 0;
+    }
 
-        .signature {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.5em;
-            font-weight: 700;
-            background: linear-gradient(135deg, #ff6699 0%, #e91e63 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-align: right;
-            margin-top: 60px;
-            opacity: 0;
-            transition: opacity 2s ease;
-        }
+    @keyframes innerGlow {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(180deg) scale(1.1); }
+      100% { transform: rotate(360deg); }
+    }
 
-        .typing::after {
-            content: '|';
-            animation: blink 1s step-end infinite;
-            color: #e91e63;
-            margin-left: 3px;
-            font-weight: bold;
-        }
+    .letter-content {
+      position: relative;
+      z-index: 2;
+    }
 
-        .button-nav-container {
-            margin-top: 50px;
-            display: flex;
-            justify-content: flex-end;
-        }
+    .title-container {
+      text-align: center;
+      margin-bottom: 25px;
+      border-bottom: 1px solid rgba(255, 192, 203, 0.5);
+      padding-bottom: 15px;
+    }
 
-        .nav-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'Merriweather', serif;
-            font-size: 1.05em;
-            color: #e91e63;
-            background: linear-gradient(135deg, rgba(255, 182, 193, 0.25) 0%, rgba(255, 192, 203, 0.35) 100%);
-            backdrop-filter: blur(6px);
-            border: 2px solid #ffb6c1;
-            border-radius: 8px;
-            padding: 14px 24px;
-            text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.25);
-        }
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3em;
+      background: linear-gradient(120deg, #ff5c8d, #ff92b7, #ffc0cb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: fadeIn 1.5s ease forwards;
+    }
 
-        .nav-btn:hover {
-            background: linear-gradient(135deg, #ff7fa4 0%, #e91e63 100%);
-            color: #fff;
-            border-color: #e91e63;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
-        }
+    .header-emoji {
+      display: block;
+      font-size: 2.3em;
+      margin-top: 6px;
+    }
 
-        @media (max-width: 768px) {
-            body { padding: 20px 10px; }
-            .letter-container { max-width: 95%; padding: 35px 25px; }
-            h1 { font-size: 2.5em; }
-            .header-emoji { font-size: 2em; }
-        }
-    </style>
+    p {
+      font-size: 1.1em;
+      line-height: 1.8;
+      margin-bottom: 22px;
+      color: #4a2c2a;
+      opacity: 0;
+      text-align: justify;
+      transition: color 0.3s ease;
+    }
+
+    p:hover {
+      color: #2a1d1d;
+    }
+
+    .signature {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2em;
+      background: linear-gradient(135deg, #ff6699, #e91e63);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: right;
+      margin-top: 40px;
+      opacity: 0;
+    }
+
+    .button-nav-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 40px;
+    }
+
+    .nav-btn {
+      font-size: 1em;
+      padding: 12px 20px;
+      color: #e91e63;
+      text-decoration: none;
+      border: 2px solid #ffb6c1;
+      border-radius: 10px;
+      background: rgba(255, 182, 193, 0.3);
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 3px 10px rgba(233,30,99,0.25);
+    }
+
+    .nav-btn:hover {
+      background: linear-gradient(135deg, #ff7fa4, #e91e63);
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(233,30,99,0.4);
+    }
+
+    .typing::after {
+      content: '|';
+      animation: blink 1s step-end infinite;
+      color: #e91e63;
+      margin-left: 2px;
+      font-weight: bold;
+    }
+
+    @keyframes blink {
+      0%, 49%, 100% { opacity: 1; }
+      50%, 99% { opacity: 0; }
+    }
+
+    /* 🌷 Mobile adjustments */
+    @media (max-width: 768px) {
+      body { padding: 20px 10px; }
+      .letter-container { padding: 30px 20px; border-radius: 16px; }
+      h1 { font-size: 2.4em; }
+      .header-emoji { font-size: 2em; }
+      p { font-size: 1.02em; line-height: 1.75; }
+      .signature { font-size: 1.8em; }
+    }
+  </style>
 </head>
-
 <body>
-    <div class="bg-animation-container">
-        <div class="orb"></div><div class="orb"></div><div class="orb"></div>
-        <div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="orb"></div>
+  <div class="bg-animation-container">
+    <div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="orb"></div>
+  </div>
+
+  <div class="letter-container">
+    <div class="letter-content">
+      <div class="title-container">
+        <h1>Why are you still here......</h1>
+        <span class="header-emoji">😒</span>
+      </div>
+
+      <p>(Fineeee... then read this thing, imagine my voice as calm gentle and subtle and deep as well...)</p>
+      <p>Mene tumse bola tha na, me tumhare baare me negative sochu to wo galat hi nikalta h😢. Tum ho hi itni bholi bhali masoom or acchi ladki.</p>
+      <p>Wo poorane sab pe mujhe sachme bohot bura laga tha😶‍🌫️, jab tum wapis aai or mene doobara wo sab padha.</p>
+      <p>Mene usme likha tha ki 5 ko response nhi diya to I would take it as a sign of disrespect😢. And you texted back which shows, you still value me❤️ and you always did❤️.</p>
+      <p>Mujhe itna zyada bura lag rha tha. Ki shyd mene tumhare mn me dar bhar diya h😳 Mene bohot saare aise kaam kiye h jinki mujhe kabhi punishment nhi mili, koi de bhi nhi pata reeeeeeeeee... kaash de de koi, ye guilt se mukti mileeee.... </p>
+      <p>Wo 2 saal sachme bohot dark nikle theeeeeeee... meri life crushing scenarios ke saath😂</p>
+      <p>You took me out of it. Or haaa ek cheez h yr 😂 me bohot accha baccha tha bs bhatak gaya tha (ye darkness hai hi aisi cheez)</p>
+      <p>Don't underestimate the allure of darkness Prachiii, even the pure hearts are drawn to it.(Tum to ho hi angel material 😂)</p>
+      <p>There is too much good inside you. Tumhari jagah koi aur hoti to she would have kicked me off her life 😶‍🌫️, you can't even hurt a stranger (me to fir bhi tumhara dost tha)</p>
+      <p>Tumhe kitna bura laga hoga😳, isiliye hata rha hu wo poorana wala with this one, tumhare samne mere andarr ka baccha bahar nikalne lagta h😵‍💫. Jabki me kitna harsh or sakth hu 😂</p>
+      <p>Tum khud konsa bohot mature ho😒😎, tum bhi utni hi mastikhor or badmash ho😒</p>
+      <p>Tumhari tareeef me 200-300 shabd bolne ka mn kar rha h ab🙂🤏🕶😎</p>
+      <p>Lekin tum dant dogi isiliye nhi bol rha 😁😁</p>
+      <p>How much you would teach me, I don't understand oh girl😒 (Self Control bohot important h, seekh rha ab menhat seeeee......)</p>
+      <p>Tum yr padhai karo ab to 😒, mujhe nind aa rhi h isiliye bs ek page badlunga (warna wo 11:30 ka schedule jyada bigad jayega) , exams shuru ho rhe h parso (monday) se isiliye bhiiii....😂.</p>
+      <p>Ab realising ki tum kitna mehnat karti ho daily, every single hour, every single minute and second as well🐧</p>
+      <p>Jaldi se bano yrrrrrr.... doctorrr.... mujhe free ka treatment or dawai chaiye 🔪🔪. psycologist bani to therapy😁, Me tumhare liye free me websites banaungaaa....</p>
+      <p>Tumahri bohot saari tareef karunga in pages me ab😁🐧</p>
+      <p>Truth Dare khel ke saare raaz nikal lunga tumahree🔪 Or dare chun lo bs ek baar😂 dare ke form me tumhare acchi acchi photos maang lunga  😒phas jaogi....</p>
+
+      <p class="signature">- You Are An Angel❤️ Truely❤️</p>
+
+      <div class="button-nav-container">
+        <a href="page2.html" class="nav-btn">Ange mat padho (poorana h) →</a>
+      </div>
     </div>
+  </div>
 
-    <div class="letter-container">
-        <div class="title-container">
-            <h1>Kyun re Billu Badmash</h1>
-            <span class="header-emoji">😒</span>
-        </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const typeSpeed = 40;
+      const initialDelay = 1200;
+      const paragraphs = document.querySelectorAll('.letter-container p:not(.signature)');
+      const signature = document.querySelector('.signature');
+      const texts = [...paragraphs].map(p => p.textContent);
+      paragraphs.forEach(p => p.textContent = '');
 
-        <p>Kaha bhag gaya tha us raat ko beech me heinnn...😒.</p>
-        <p>Sharam nhi aati Dusht, Me beechara............. darr gaya thaa😒.</p>
-        <p>Tumm... hamesha aisa hi karti ho 😒, beech me adhna sunke gusse me pagal hoke😏, nikal leti ho 😵‍💫</p>
-        <p>Janta hu ki me shyd abtak ka sabse ajeeb, alag or tumhari nazar me bewakoof ladka hu. But you cannot Disagree ki mere jaisa koi hai hi nhi😒😎</p>
-        <p>To mene socha kyun na kuch alag kiya jaaye, 🙂🤏🕶😎</p>
-        <p>Arey yr me hamesha rayeta faila deta hu, tumhari bhasha me mene bhasad macha di, direct tumse baat karne me, ya kabhi kabhi kisi or se bhi  😂, ab wo tanya wala yaad karo ki mene bakkk diya tha ki "Oye Tanya arindam ko girlfriend ki jaroorat h"😵‍💫 or kya hi sunaya tha usne mujheee 😂 , mere me sachma dimag kaafi km h, aise logon se baat karne me 🐣🐥 </p>
-        <p>Ab dekho me Tumhari Tareef karne ke mood me aya tha or kar kuch diya mene 🐥, kyuki tum faltoo sawal karti ho or tension lene lagti ho to meri fat jaati h, kabh bada houngaaa mee 🐁🐁, ab bina chat tum wo padho jo me batane wala tha 😒</p>
-        <p>Or tareef bhi bs isiliye taaki tum accha feel karo, kitni tension rehti h tumhare pass jo tum batati nhi. Meri ek drop wali dost to depression me chali gai thi. Tumhari chinta hoti thi isiliye me accha feel karane ki kosish karta tha, tareef karke 🙂‍↕️ Tumne us din bola ki shyd tum depression me ho to me to dar hi Gaya tha🫠, fir tumne bola ki tumhe kapde select karne ki tension h.</p>
-        <p>Make sure you read till end🐣 And pleaseee.. keep this thing PRIVATE</p>
+      let index = 0;
 
-        <p class="signature">- By an amazing Badmosh Baccha Btw</p>
+      function typeParagraph() {
+        if (index < paragraphs.length) {
+          let p = paragraphs[index];
+          let txt = texts[index];
+          p.style.opacity = '1';
+          p.classList.add('typing');
+          typeWriter(p, txt, 0, () => {
+            p.classList.remove('typing');
+            index++;
+            setTimeout(typeParagraph, 250);
+          });
+        } else {
+          setTimeout(() => { signature.style.opacity = '1'; }, 400);
+        }
+      }
 
-        <div class="button-nav-container">
-            <a href="page2.html" class="nav-btn"><span>What I was About To say</span><span>→</span></a>
-        </div>
-    </div>
+      function typeWriter(el, text, i, done) {
+        if (i < text.length) {
+          el.textContent += text.charAt(i);
+          const delay = text.charAt(i) === '.' ? typeSpeed * 3 : typeSpeed;
+          setTimeout(() => typeWriter(el, text, i + 1, done), delay);
+        } else if (done) done();
+      }
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const typeSpeed = 45;
-            const initialDelay = 1800;
-            const paragraphs = document.querySelectorAll('.letter-container p:not(.signature)');
-            const signature = document.querySelector('.signature');
-            let originalTexts = [];
-
-            paragraphs.forEach(p => {
-                originalTexts.push(p.textContent);
-                p.textContent = '';
-            });
-
-            let pIndex = 0;
-
-            function typeAllParagraphs() {
-                if (pIndex < paragraphs.length) {
-                    const currentP = paragraphs[pIndex];
-                    const currentText = originalTexts[pIndex];
-                    currentP.style.opacity = '1';
-                    currentP.classList.add('typing');
-
-                    typeWriter(currentP, currentText, 0, () => {
-                        currentP.classList.remove('typing');
-                        pIndex++;
-                        setTimeout(typeAllParagraphs, 300);
-                    });
-                } else {
-                    setTimeout(() => { signature.style.opacity = '1'; }, 500);
-                }
-            }
-
-            function typeWriter(element, text, charIndex, onComplete) {
-                if (charIndex < text.length) {
-                    element.textContent += text.charAt(charIndex);
-                    charIndex++;
-                    const nextDelay = text.charAt(charIndex) === '.' ? typeSpeed * 3 : typeSpeed;
-                    setTimeout(() => typeWriter(element, text, charIndex, onComplete), nextDelay);
-                } else if (onComplete) onComplete();
-            }
-
-            setTimeout(typeAllParagraphs, initialDelay);
-        });
-    </script>
+      setTimeout(typeParagraph, initialDelay);
+    });
+  </script>
 </body>
 </html>
