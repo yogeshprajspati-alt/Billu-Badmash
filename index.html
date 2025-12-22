@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Magical Diary</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Dancing+Script:wght@400;700&family=Great+Vibes&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Dancing Script', cursive;
+            background: radial-gradient(circle at bottom, #1b2735 0%, #090a0f 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px 10px 90px 10px;
+            overflow: hidden;
+            position: relative;
+            color: #4a3b2a;
+        }
+
+        /* Ambient Glow */
+        .glow-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.05), transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Fireflies Container */
+        .fireflies {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .firefly {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: #ffd700;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffd700, 0 0 20px #ffae00;
+            opacity: 0;
+            animation: flight 10s infinite ease-in-out;
+        }
+
+        @keyframes flight {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: translate(50px, -50px) scale(1);
+                opacity: 0.6;
+            }
+
+            90% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translate(100px, -100px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Stars Background */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(1px 1px at 20px 30px, #eee, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 40px 70px, #fff, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 50px 160px, #ddd, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 90px 40px, #fff, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 130px 80px, #fff, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 160px 120px, #ddd, rgba(0, 0, 0, 0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            opacity: 0.3;
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 0.3;
+            }
+        }
+
+        /* Notebook Container */
+        .notebook-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .notebook {
+            position: relative;
+            width: 100%;
+            height: 75vh;
+            max-height: 600px;
+            perspective: 1500px;
+            transform-style: preserve-3d;
+            filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.6));
+        }
+
+        /* Parchment Page Style */
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #fdfbf7;
+            /* Cream color */
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' opacity='0.3'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+            border-radius: 5px 15px 15px 5px;
+            box-shadow:
+                inset 0 0 30px rgba(139, 69, 19, 0.1),
+                /* Aged edge */
+                1px 1px 5px rgba(0, 0, 0, 0.1);
+            transform-origin: left center;
+            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+            padding: 30px 25px;
+            padding-left: 45px;
+            font-size: 20px;
+            line-height: 1.6;
+            color: #3e2723;
+            overflow-y: auto;
+            overflow-x: hidden;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid rgba(210, 180, 140, 0.3);
+        }
+
+        /* Golden Page Border/Decor */
+        .page::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            bottom: 10px;
+            right: 10px;
+            left: 40px;
+            border: 2px double rgba(218, 165, 32, 0.2);
+            pointer-events: none;
+        }
+
+        .page::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .page::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .page::-webkit-scrollbar-thumb {
+            background: rgba(139, 69, 19, 0.2);
+            border-radius: 2px;
+        }
+
+        /* Cover Page - Elegant Gold */
+        .page.cover {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+            border: 2px solid #ffd700;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffd700;
+            text-shadow: 0 2px 10px rgba(255, 215, 0, 0.5);
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8);
+        }
+
+        .page.cover::after {
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            left: 15px;
+            right: 15px;
+            top: 15px;
+            bottom: 15px;
+        }
+
+        .cover-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 52px;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffd700, #ffecb3, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                filter: brightness(100%);
+            }
+
+            50% {
+                filter: brightness(150%);
+            }
+
+            100% {
+                filter: brightness(100%);
+            }
+        }
+
+        .cover-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            letter-spacing: 3px;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+
+        /* Flipped State */
+        .page.flipped {
+            transform: rotateY(-180deg);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Page Content Animation */
+        .page-content {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Page Number */
+        .page-number {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 14px;
+            color: #8d6e63;
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Z-index Management */
+        .page:nth-child(1) {
+            z-index: 15;
+        }
+
+        .page:nth-child(2) {
+            z-index: 14;
+        }
+
+        .page:nth-child(3) {
+            z-index: 13;
+        }
+
+        .page:nth-child(4) {
+            z-index: 12;
+        }
+
+        .page:nth-child(5) {
+            z-index: 11;
+        }
+
+        .page:nth-child(6) {
+            z-index: 10;
+        }
+
+        /* Spiral Binding - Gold */
+        .spiral {
+            position: absolute;
+            left: -15px;
+            top: 20px;
+            bottom: 20px;
+            width: 30px;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+
+        .spiral-ring {
+            width: 100%;
+            height: 15px;
+            background: linear-gradient(90deg, #b8860b, #ffd700, #b8860b);
+            border-radius: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            transform: rotate(-15deg);
+        }
+
+        /* Typography & Content */
+        p {
+            margin-bottom: 20px;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        .highlight {
+            color: #b8860b;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        /* Nav Hint */
+        .nav-hint {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 215, 0, 0.7);
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            letter-spacing: 1px;
+            pointer-events: none;
+            opacity: 0.8;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.5;
+            }
+        }
+
+        .nav-hint.hidden {
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="stars"></div>
+    <div class="glow-overlay"></div>
+    <div class="fireflies" id="fireflies"></div>
+
+    <div class="nav-hint">Tap sides to flip pages ✨</div>
+
+    <div class="notebook-container">
+        <div class="notebook">
+            <!-- Spiral Binding -->
+            <div class="spiral">
+                <div class="spiral-ring"></div>
+                <div class="spiral-ring"></div>
+                <div class="spiral-ring"></div>
+                <div class="spiral-ring"></div>
+                <div class="spiral-ring"></div>
+                <div class="spiral-ring"></div>
+                <div class="spiral-ring"></div>
+                <div class="spiral-ring"></div>
+                <div class="spiral-ring"></div>
+                <div class="spiral-ring"></div>
+            </div>
+
+            <!-- Cover Page -->
+            <div class="page cover">
+                <div class="cover-title">Prachi Devi</div>
+                <div class="cover-subtitle">Things I dont wanna tell</div>
+            </div>
+
+            <!-- Page 1 -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="page-number">1</div>
+                    <p>Prachi (instead of Prachiii), ✨</p>
+                    <p>Dekho mujhe nhi pata tumhe kya, kaisa or kyun feel hua, bs itna saaf h shyd tumhe koi saccha
+                        insaan nhi dikha.
+                        Haan ye to sach h, ki tumhari jagah thodi upar thi unlog se bhi. Lekin aisa nhi h ki me unke
+                        texts ghanton tk latka ke rakhu ya shaam ko dekhu. Unlog ke me turant hi dekhta hun, Ab dekhlo,
+                        yaha mere pass khudke liye time nhi tha lekin deeksha ko boys hostel dekhna tha to uske ek baar
+                        poochne pe chala gaya me bhawar kua, boys hostel leke use. Taaki wo safe feel kare obviously</p>
+                    <p class="highlight">Me kisi ko as an option treat nhi karta...</p>
+                    <p class="highlight">Ab agar kisi ko koi emergency ho or me shaam tk latka ke rakhu to kya hi hoga
+                        unka?? or bs aisa hota rehta h. </p>
+                    <p>Ab tumhe kabhi aise ladke mile nhi to uske liye, I could hardly be blamed for your
+                        disappointment🙃</p>
+                    <p>(For me conversation is a form of respect!)</p>
+
+                </div>
+            </div>
+
+            <!-- Page 2 -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="page-number">2</div>
+                    <p>Ab jab mene dekha tha ki "prachi has not added you as a friend, they won't be able to see your
+                        messages until they do"</p>
+                    <p>Ye dekh ke thoda ajeeb sa to laga tha, gussa nhi aya ekdum se. Wo baad me aya tha. Lekin me bohot
+                        jyada busy tha or continous nuksaan hi jhel rha tha pichle din se to itna jyada impact nhi pada
+                        initially.</p>
+                    <p class="highlight">Sote Time jaroor Dimag kharab ho gaya tha mera.... wo overthinking wala phase
+                        tabhi shuru hota h.</p>
+                    <p>Kher mene ye notification dekha tha wo calender wala tab 50% gussa khatam ho gaya tha(pata nhi ye
+                        bhagwan mere se chahte kya h. Hamesha aisi jagah patak dete h jaha me kuch soch hi nhi pata),
+                        baaki 50% tumhare wo text ke baad, tumhare upar nhi h ab koi naragzi | agar hoti to me tumahre
+                        texts nhi dekhta. Kya pata itne jaldi thanda kyun ho jata hu me. Ab gussa bs mujhe mere upar aa
+                        rha h, or me nhi janta wo kabtak rahega.</p>
+                </div>
+            </div>
+
+            <!-- Page 3 -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="page-number">3</div>
+                    <p>Khush hone ki jaroorat nhi h, mujhe nhi pata mera EGO tumhare case me ange kyun nhi aa pata.
+                        Jabki mere khandaan me bhi aisa koi nhi. Aisa koi nhi jiske samne mere EGO ne dm toda ho.</p>
+                    <p class="highlight">Or haa me sachme sabse jyada alag hu. Wo to tum dekh hi paa rhi ho.</p>
+                    <br>
+                    <p><i>"Agar tum meri friendship nhi chahti to tum hata sakti ho, me kuch nhi bolne wala, or naraz
+                            bhi nhi hone wala. Telegram khula h mera tumhare liye. Kyuki mujhe aisa kuch nhi chaiye
+                            jiske karan tumhe dukh ho."</i></p>
+                    <p class="highlight">Ab mene tumko kabhi whatsapp pe text nhi kara/ call bhi nhi kara kabhi, uska
+                        karan ye h kii wo tumhari personal space hai. Instagram bhi same cheez. Us din mene bs bol diya
+                        tha kyuki mene galati se wo chanchal wali line bol di thi.(warna nhi bolta)</p>
+                    <p>Or me bohot hard hu bahar walon ke liye. Serious face or extra serious responses hi milte h unko.
+                        Tumko ordinary banna h to theek h fir, thoda mushkil h lekin kar hi dunga me tumhare liye🫡 </p>
+                    <p>Or mene wo jo sab banaya tha sherlock se bolke trash kara diya. to wo kuch nhi bhejega. Christmas
+                        newyear kuch nhii, wo webapp bhi delete kar diya hoga shyd usne.</p>
+                </div>
+            </div>
+
+            <!-- Page 4 -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="page-number">4</div>
+                    <p class="highlight">Final thoughts...</p>
+                    <p>Me janta hu tumne mere chakkar me bohot overthinking kari hogi. Dekho me nhi chahta tum bhi is
+                        beemari ka shikar ban jao. Isiliye me CLEAR kar rha hu ki me tumse 1% bhi naraz nhi hu, you are
+                        free to move! </p>
+                    <p>Or mene sabko remove nhi kar paya tha, shyd se 12 se 13 log ko kara tha baakiyon ko karna tha
+                        tabtak tumne mujhe kar diye to kaafi log bahe h.</p>
+                    <p>Me soch rha hu snap hi uda du 🦥 bs ye log mujhe dhar lenge 🙃 beech raste me (inki streak hi
+                        1200+ days ki h) kisi dost ko de de rha ab wahi sambhal legi, dekha jayegaaaa. Tumhe chaiye ho
+                        to batana...</p>
+                    <p class="highlight"><i>"Or is waqt me bohot jyada gusse me hu(Tumhara koi role nhi usme, wo bs meri
+                            khudki wajah se h) isiliye me nhi chahta me koi bewkoofi
+                            bhare words bolke tumhara dil dukha du."...</i></p>
+                    <p>Kyuki mene tumhe bura feel karaya to meri chest me firse wo ajeeb sa lagne lagega , wo guilt
+                        sabse top class pain h. Or tumne yaha tk read kar liya to tum ab chill karo. Mene bs likh diya
+                        kuch bhi. Or nakhre ki tension mt lo wo me aaram se utha sakta hu, bs hurt nhi kar sakta meri
+                        pgliiiiiiiiiiiiiiiiiiiiiii pirachiiiiiiiiiiiiiiiiiii ko. Isiliye I am thinking to walk away, ab
+                        tum batao tumhare kya vichar h. Tum padho chupchaap or chill karo 🐼</p>
+                    <br><br>
+                  <p class="highlight">Waise kl exam h mera! All the best nhi kahogi??</p>
+                    <p style="text-align: center;">Bye🌟Bye</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Firefly Animation
+        const firefliesContainer = document.getElementById('fireflies');
+        const fireflyCount = 30;
+
+        for (let i = 0; i < fireflyCount; i++) {
+            const firefly = document.createElement('div');
+            firefly.className = 'firefly';
+
+            // Random positioning and animation properties
+            const left = Math.random() * 100;
+            const top = Math.random() * 100;
+            const duration = Math.random() * 10 + 5; // 5-15s
+            const delay = Math.random() * 5;
+
+            firefly.style.left = left + '%';
+            firefly.style.top = top + '%';
+            firefly.style.animationDuration = duration + 's';
+            firefly.style.animationDelay = delay + 's';
+
+            firefliesContainer.appendChild(firefly);
+        }
+
+        // Page Navigation Logic
+        let currentPage = 0;
+        const pages = document.querySelectorAll('.page');
+        const totalPages = pages.length;
+        const navHint = document.querySelector('.nav-hint');
+
+        function flipPage(direction) {
+            navHint.classList.add('hidden'); // Hide hint on first interaction
+
+            if (direction === 'next' && currentPage < totalPages - 1) {
+                pages[currentPage].classList.add('flipped');
+                currentPage++;
+            } else if (direction === 'back' && currentPage > 0) {
+                currentPage--;
+                pages[currentPage].classList.remove('flipped');
+            }
+        }
+
+        // Touch/Click Handling
+        document.addEventListener('click', (e) => {
+            const screenWidth = window.innerWidth;
+            if (e.clientX > screenWidth / 2) {
+                flipPage('next');
+            } else {
+                flipPage('back');
+            }
+        });
+
+        // Swipe Support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            if (touchStartX - touchEndX > 50) {
+                flipPage('next');
+            }
+            if (touchEndX - touchStartX > 50) {
+                flipPage('back');
+            }
+        }
+    </script>
+</body>
+
+</html>
