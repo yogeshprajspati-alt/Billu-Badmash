@@ -3,10 +3,19 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Magical Diary</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Dancing+Script:wght@400;700&family=Great+Vibes&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+
+        :root {
+            --gold: #ffd700;
+            --gold-dim: #b8860b;
+            --paper-bg: #fdfbf7;
+            --ink-color: #3e2723;
+            --overlay-bg: rgba(10, 10, 15, 0.95);
+        }
 
         * {
             margin: 0;
@@ -16,50 +25,78 @@
         }
 
         body {
-            font-family: 'Dancing Script', cursive;
+            font-family: 'Cormorant Garamond', serif;
             background: radial-gradient(circle at bottom, #1b2735 0%, #090a0f 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 15px 10px 90px 10px;
             overflow: hidden;
             position: relative;
-            color: #4a3b2a;
+            color: var(--ink-color);
         }
 
-        /* Ambient Glow */
+        /* Ambient Effects */
         .glow-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.05), transparent 70%);
+            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.03), transparent 80%);
             pointer-events: none;
             z-index: 1;
         }
 
-        /* Fireflies Container */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(1px 1px at 20px 30px, #eee, transparent),
+                radial-gradient(1.5px 1.5px at 100px 70px, #fff, transparent),
+                radial-gradient(1px 1px at 150px 160px, #ddd, transparent);
+            background-repeat: repeat;
+            background-size: 300px 300px;
+            opacity: 0.4;
+            animation: twinkle 8s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: translateY(0);
+            }
+
+            50% {
+                opacity: 0.6;
+                transform: translateY(-5px);
+            }
+        }
+
         .fireflies {
             position: absolute;
             width: 100%;
             height: 100%;
-            top: 0;
-            left: 0;
             pointer-events: none;
             z-index: 2;
         }
 
         .firefly {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background-color: #ffd700;
+            width: 3px;
+            height: 3px;
+            background: var(--gold);
             border-radius: 50%;
-            box-shadow: 0 0 10px #ffd700, 0 0 20px #ffae00;
+            box-shadow: 0 0 8px var(--gold), 0 0 16px orange;
+            animation: flight 15s infinite linear;
             opacity: 0;
-            animation: flight 10s infinite ease-in-out;
         }
 
         @keyframes flight {
@@ -69,307 +106,470 @@
             }
 
             10% {
-                opacity: 0.8;
-            }
-
-            50% {
-                transform: translate(50px, -50px) scale(1);
-                opacity: 0.6;
+                opacity: 1;
             }
 
             90% {
-                opacity: 0.8;
+                opacity: 1;
             }
 
             100% {
-                transform: translate(100px, -100px) scale(0);
+                transform: translate(100px, -150px) scale(0);
                 opacity: 0;
             }
         }
 
-        /* Stars Background */
-        .stars {
-            position: absolute;
+        /* --- UI OVERLAYS --- */
+
+        /* Orientation Warning - Softer, Calmer */
+        .orientation-overlay {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image:
-                radial-gradient(1px 1px at 20px 30px, #eee, rgba(0, 0, 0, 0)),
-                radial-gradient(1px 1px at 40px 70px, #fff, rgba(0, 0, 0, 0)),
-                radial-gradient(1px 1px at 50px 160px, #ddd, rgba(0, 0, 0, 0)),
-                radial-gradient(1px 1px at 90px 40px, #fff, rgba(0, 0, 0, 0)),
-                radial-gradient(1px 1px at 130px 80px, #fff, rgba(0, 0, 0, 0)),
-                radial-gradient(1px 1px at 160px 120px, #ddd, rgba(0, 0, 0, 0));
-            background-repeat: repeat;
-            background-size: 200px 200px;
-            opacity: 0.3;
-            animation: twinkle 5s infinite;
+            background: rgba(15, 15, 20, 0.98);
+            /* Deep calming dark */
+            z-index: 1000;
+            display: none;
+            /* Shown via media query */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #e0d0b0;
+            /* Soft beige instead of harsh gold */
+            text-align: center;
+            padding: 40px;
+            backdrop-filter: blur(15px);
         }
 
-        @keyframes twinkle {
-            0% {
-                opacity: 0.3;
-            }
+        .orientation-icon {
+            font-size: 50px;
+            margin-bottom: 30px;
+            opacity: 0.8;
+            animation: soft-rotate 4s infinite ease-in-out;
+        }
 
-            50% {
+        @keyframes soft-rotate {
+            0% {
+                transform: rotate(0deg);
                 opacity: 0.5;
             }
 
+            50% {
+                transform: rotate(-90deg);
+                opacity: 1;
+            }
+
             100% {
-                opacity: 0.3;
+                transform: rotate(0deg);
+                opacity: 0.5;
             }
         }
 
-        /* Notebook Container */
-        .notebook-container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 420px;
+        @media (orientation: portrait) {
+            .orientation-overlay {
+                display: flex;
+            }
         }
 
-        .notebook {
-            position: relative;
-            width: 100%;
-            height: 75vh;
-            max-height: 600px;
-            perspective: 1500px;
-            transform-style: preserve-3d;
-            filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.6));
-        }
-
-        /* Parchment Page Style */
-        .page {
-            position: absolute;
+        /* Tutorial Overlay */
+        .tutorial-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: #fdfbf7;
-            /* Cream color */
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' opacity='0.3'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
-            border-radius: 5px 15px 15px 5px;
-            box-shadow:
-                inset 0 0 30px rgba(139, 69, 19, 0.1),
-                /* Aged edge */
-                1px 1px 5px rgba(0, 0, 0, 0.1);
-            transform-origin: left center;
-            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-            padding: 30px 25px;
-            padding-left: 45px;
-            font-size: 20px;
-            line-height: 1.6;
-            color: #3e2723;
-            overflow-y: auto;
-            overflow-x: hidden;
-            cursor: pointer;
-            user-select: none;
-            border: 1px solid rgba(210, 180, 140, 0.3);
-        }
-
-        /* Golden Page Border/Decor */
-        .page::after {
-            content: '';
-            position: absolute;
-            top: 10px;
-            bottom: 10px;
-            right: 10px;
-            left: 40px;
-            border: 2px double rgba(218, 165, 32, 0.2);
-            pointer-events: none;
-        }
-
-        .page::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .page::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .page::-webkit-scrollbar-thumb {
-            background: rgba(139, 69, 19, 0.2);
-            border-radius: 2px;
-        }
-
-        /* Cover Page - Elegant Gold */
-        .page.cover {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-            border: 2px solid #ffd700;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 900;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #ffd700;
-            text-shadow: 0 2px 10px rgba(255, 215, 0, 0.5);
-            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8);
+            color: #fff;
+            transition: opacity 1s ease;
+            backdrop-filter: blur(8px);
         }
 
-        .page.cover::after {
-            border: 2px solid rgba(255, 215, 0, 0.5);
-            left: 15px;
-            right: 15px;
-            top: 15px;
-            bottom: 15px;
-        }
-
-        .cover-title {
-            font-family: 'Great Vibes', cursive;
-            font-size: 52px;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #ffd700, #ffecb3, #ffd700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% {
-                filter: brightness(100%);
-            }
-
-            50% {
-                filter: brightness(150%);
-            }
-
-            100% {
-                filter: brightness(100%);
-            }
-        }
-
-        .cover-subtitle {
-            font-family: 'Cinzel', serif;
-            font-size: 16px;
-            letter-spacing: 3px;
-            opacity: 0.8;
-            text-transform: uppercase;
-        }
-
-        /* Flipped State */
-        .page.flipped {
-            transform: rotateY(-180deg);
+        .tutorial-overlay.hidden {
+            opacity: 0;
             pointer-events: none;
-            z-index: 1;
         }
 
-        /* Page Content Animation */
-        .page-content {
-            animation: fadeIn 0.8s ease-out;
+        .tutorial-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            text-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+            text-align: center;
+            padding: 0 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUpFade 1.5s forwards 0.5s;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
+        .tutorial-sub {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: slideUpFade 1.5s forwards 1.2s;
+        }
 
+        .enter-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            color: var(--gold);
+            padding: 15px 50px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.5s;
+            opacity: 0;
+            animation: slideUpFade 1.5s forwards 2s;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border-radius: 30px;
+            /* Softer button */
+        }
+
+        .enter-btn:hover {
+            background: rgba(255, 215, 0, 0.1);
+            color: #fff;
+            border-color: var(--gold);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+        }
+
+        @keyframes slideUpFade {
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        /* Page Number */
+        /* --- NOTEBOOK --- */
+        .notebook-container {
+            position: relative;
+            z-index: 10;
+            width: 90vw;
+            /* Wider for better mobile landscape usage */
+            max-width: 900px;
+            height: 85vh;
+            /* Taller */
+            max-height: 600px;
+            /* Cap height mainly for desktop, fits mobile typical width */
+            perspective: 2500px;
+            transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* Adjustments for small mobile screens in landscape */
+        @media (max-height: 500px) {
+            .notebook-container {
+                height: 90vh;
+                /* Use almost full height on short screens */
+                max-width: 700px;
+                /* Keep aspect ratio closer */
+            }
+        }
+
+        /* Initial hidden state for entrance animation */
+        .notebook-container.closed {
+            transform: translateY(50vh) scale(0.8);
+            opacity: 0;
+        }
+
+        .notebook {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+
+        /* Pages */
+        .page {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            right: 0;
+            /* Starts on right side */
+            background: var(--paper-bg);
+            border-radius: 4px 15px 15px 4px;
+            transform-origin: left center;
+            /* Critical: hinge is at CSS 'left' of this element */
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            cursor: pointer;
+            box-shadow:
+                inset 15px 0 25px rgba(0, 0, 0, 0.08),
+                /* Deeper inner shadow for spine depth */
+                5px 5px 20px rgba(0, 0, 0, 0.2);
+
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' opacity='0.3'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+
+        /* Left/Right Page logic specific:
+           Actually, for a stack that flips to left, we need all pages starting at the RIGHT half of the container. 
+           When flipped, they go to the LEFT half (-180deg).
+        */
+
+        .page-content {
+            height: 100%;
+            padding: 30px;
+            /* Slightly less padding for mobile */
+            border: 1px solid rgba(139, 69, 19, 0.1);
+            margin: 8px;
+            /* Tighter margin */
+            border-radius: 2px 10px 10px 2px;
+            overflow-y: auto;
+            color: #2c1810;
+            font-size: 1.1rem;
+            /* Readable scale */
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        /* Decorative Corners */
+        .page-content::before,
+        .page-content::after {
+            content: "❧";
+            position: absolute;
+            font-size: 20px;
+            color: var(--gold-dim);
+            opacity: 0.4;
+        }
+
+        .page-content::before {
+            top: 15px;
+            left: 15px;
+        }
+
+        .page-content::after {
+            bottom: 15px;
+            right: 15px;
+            transform: rotate(180deg);
+        }
+
+        /* Scrollbar Styling */
+        .page-content::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .page-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .page-content::-webkit-scrollbar-thumb {
+            background: rgba(139, 69, 19, 0.3);
+            border-radius: 10px;
+        }
+
+        /* Typography */
+        p {
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            color: #8b4513;
+            font-weight: 600;
+            font-style: italic;
+        }
+
         .page-number {
             position: absolute;
             bottom: 15px;
-            right: 20px;
-            font-size: 14px;
-            color: #8d6e63;
+            width: 100%;
+            text-align: center;
+            left: 0;
             font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            color: #bbb;
+            pointer-events: none;
         }
 
-        /* Z-index Management */
+        /* COVER PAGE */
+        .cover {
+            background: linear-gradient(135deg, #1c1c1c 0%, #363636 100%);
+            border: 3px solid var(--gold);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 50;
+        }
+
+        .cover .page-content {
+            border: 2px solid var(--gold);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+        }
+
+        .cover-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 4rem;
+            color: transparent;
+            background: linear-gradient(45deg, #bf953f, #fcf6ba, #bf953f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+        }
+
+        .cover-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--gold);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        /* FLIPPED STATE */
+        .page.flipped {
+            transform: rotateY(-180deg);
+            z-index: 10;
+            /* Lower index when flipped? No, needs careful management */
+        }
+
+        /* BACK OF PAGE (Visible when flipped) - Simplified for this demo, 
+           assuming we just see the content on the "front" of the flipped page if we want double sided.
+           But since we only have one-sided content in the HTML structure, we'll keep it simple: 
+           The page flips over to the left. 
+           To make it look consistent, we can give the back a generic paper texture or implement true double-sided.
+           For now: Simple flip.
+        */
+
+        /* Z-INDEX STACKING (Reverse order is critical) */
+        /* We want the cover on TOP (highest index). Last page on BOTTOM. */
         .page:nth-child(1) {
-            z-index: 15;
-        }
-
-        .page:nth-child(2) {
-            z-index: 14;
-        }
-
-        .page:nth-child(3) {
-            z-index: 13;
-        }
-
-        .page:nth-child(4) {
-            z-index: 12;
-        }
-
-        .page:nth-child(5) {
-            z-index: 11;
-        }
-
-        .page:nth-child(6) {
             z-index: 10;
         }
 
-        /* Spiral Binding - Gold */
+        /* Spiral container */
+        .page:nth-child(2) {
+            z-index: 9;
+        }
+
+        /* Cover */
+        .page:nth-child(3) {
+            z-index: 8;
+        }
+
+        .page:nth-child(4) {
+            z-index: 7;
+        }
+
+        .page:nth-child(5) {
+            z-index: 6;
+        }
+
+        .page:nth-child(6) {
+            z-index: 5;
+        }
+
+        /* When flipped, we need to manage z-index so the latest flipped page is on TOP of the LEFT stack. 
+           We will handle this via JS or specialized CSS. 
+           CSS-only Z-indexing for flipbook is tricky.
+           Let's use a JS class `flipped` and adjust z-index dyanmically for correct stacking on left.
+        */
+        .page.flipped {
+            z-index: 10;
+        }
+
+        /* Base for left stack */
+        .page.flipped:nth-child(2) {
+            z-index: 21;
+        }
+
+        .page.flipped:nth-child(3) {
+            z-index: 22;
+        }
+
+        .page.flipped:nth-child(4) {
+            z-index: 23;
+        }
+
+        .page.flipped:nth-child(5) {
+            z-index: 24;
+        }
+
+        /* Spiral Binding - CORRECTED ALIGNMENT */
         .spiral {
             position: absolute;
-            left: -15px;
-            top: 20px;
-            bottom: 20px;
-            width: 30px;
-            z-index: 20;
+            left: 50%;
+            /* Center of the notebook */
+            transform: translateX(-50%);
+            /* Perfectly centered on the spine */
+            top: 2%;
+            bottom: 2%;
+            /* Leave a little gap at ends */
+            width: 40px;
+            /* Width of the spiral coil */
+            z-index: 100;
+            /* Above all pages */
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: space-evenly;
             pointer-events: none;
         }
 
         .spiral-ring {
             width: 100%;
-            height: 15px;
-            background: linear-gradient(90deg, #b8860b, #ffd700, #b8860b);
-            border-radius: 10px;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-            transform: rotate(-15deg);
+            height: 12px;
+            background: linear-gradient(90deg, #5d4037, #ffd700 40%, #ffd700 60%, #5d4037);
+            border-radius: 6px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+            transform: rotate(-5deg);
+            /* Slight angle for realism */
         }
 
-        /* Typography & Content */
-        p {
-            margin-bottom: 20px;
-            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-        }
-
-        .highlight {
-            color: #b8860b;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-
-        /* Nav Hint */
-        .nav-hint {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 215, 0, 0.7);
+        /* Helper Text */
+        .helper-text {
+            position: absolute;
+            bottom: -40px;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
             font-family: 'Cinzel', serif;
-            font-size: 14px;
+            font-size: 0.8em;
             letter-spacing: 1px;
-            pointer-events: none;
-            opacity: 0.8;
-            animation: pulse 2s infinite;
+            animation: pulse 4s infinite;
         }
 
+        /* Final Signature Style */
+        .final-signature {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, #bf953f, #fcf6ba, #bf953f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 30px;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+            animation: shimmer 4s infinite;
+        }
+
+        /* Keyframe Animations */
         @keyframes pulse {
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes shimmer {
             0% {
-                opacity: 0.5;
+                filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
             }
 
             50% {
-                opacity: 1;
+                filter: drop-shadow(0 2px 10px rgba(255, 215, 0, 0.7));
             }
 
             100% {
-                opacity: 0.5;
+                filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
             }
-        }
-
-        .nav-hint.hidden {
-            opacity: 0;
-            transition: opacity 0.5s;
         }
     </style>
 </head>
@@ -380,11 +580,28 @@
     <div class="glow-overlay"></div>
     <div class="fireflies" id="fireflies"></div>
 
-    <div class="nav-hint">Tap sides to flip pages ✨</div>
+    <!-- 1. ORIENTATION ALERT -->
+    <div class="orientation-overlay">
+        <div class="orientation-icon">↻</div>
+        <h2>Please Rotate Your Device</h2>
+        <p style="font-family: 'Cinzel', serif; font-size:1.2rem; margin-top:10px;">For the most magical
+            experience,<br>view this diary in landscape mode.</p>
+    </div>
 
-    <div class="notebook-container">
-        <div class="notebook">
-            <!-- Spiral Binding -->
+    <!-- 2. INTRO TUTORIAL -->
+    <div class="tutorial-overlay" id="tutorial">
+        <div class="tutorial-text">Welcome, Prachi</div>
+        <div class="tutorial-sub">A small collection of unspoken thoughts...</div>
+        <button class="enter-btn" onclick="enterDiary()">Open Diary</button>
+    </div>
+
+    <div class="notebook-container closed" id="bookContainer">
+
+        <div class="helper-text">Tap right page to Next • Tap left page to Back</div>
+
+        <div class="notebook" id="notebook">
+
+            <!-- Spiral -->
             <div class="spiral">
                 <div class="spiral-ring"></div>
                 <div class="spiral-ring"></div>
@@ -398,176 +615,199 @@
                 <div class="spiral-ring"></div>
             </div>
 
-            <!-- Cover Page -->
+            <!-- Cover -->
             <div class="page cover">
-                <div class="cover-title">Prachi Devi</div>
-                <div class="cover-subtitle">Things I dont wanna tell</div>
+                <div class="page-content">
+                    <div class="cover-title">Prachi Devi</div>
+                    <div class="cover-subtitle">Things I don't wanna tell</div>
+                </div>
             </div>
 
-            <!-- Page 1 -->
+            <!-- P1 -->
             <div class="page">
                 <div class="page-content">
                     <div class="page-number">1</div>
                     <p>Prachi (instead of Prachiii), ✨</p>
                     <p>Dekho mujhe nhi pata tumhe kya, kaisa or kyun feel hua, bs itna saaf h shyd tumhe koi saccha
-                        insaan nhi dikha.
-                        Haan ye to sach h, ki tumhari jagah thodi upar thi unlog se bhi. Lekin aisa nhi h ki me unke
-                        texts ghanton tk latka ke rakhu ya shaam ko dekhu. Unlog ke me turant hi dekhta hun, Ab dekhlo,
-                        yaha mere pass khudke liye time nhi tha lekin deeksha ko boys hostel dekhna tha to uske ek baar
-                        poochne pe chala gaya me bhawar kua, boys hostel leke use. Taaki wo safe feel kare obviously</p>
-                    <p class="highlight">Me kisi ko as an option treat nhi karta...</p>
-                    <p class="highlight">Ab agar kisi ko koi emergency ho or me shaam tk latka ke rakhu to kya hi hoga
-                        unka?? or bs aisa hota rehta h. </p>
-                    <p>Ab tumhe kabhi aise ladke mile nhi to uske liye, I could hardly be blamed for your
-                        disappointment🙃</p>
-                    <p>(For me conversation is a form of respect!)</p>
-
+                        insaan nhi dikha.</p>
+                    <p>Haan ye to sach h, ki tumhari jagah thodi upar thi unlog se bhi. Lekin aisa nhi h ki me unke
+                        texts ghanton tk latka ke rakhu ya shaam ko dekhu. Unlog ke me turant hi dekhta hun.</p>
+                    <p class="highlight">"Me kisi ko as an option treat nhi karta..."</p>
+                    <p>(For me conversation is a form of respect, and if I can, then why would I make them wait for so
+                        long.)</p>
                 </div>
             </div>
 
-            <!-- Page 2 -->
+            <!-- P2 -->
             <div class="page">
                 <div class="page-content">
                     <div class="page-number">2</div>
+                    <p>Ab agar kisi ko koi emergency ho or me shaam tk latka ke rakhu to kya hi hoga unka?? or bs aisa
+                        hota rehta h.</p>
                     <p>Ab jab mene dekha tha ki "prachi has not added you as a friend, they won't be able to see your
                         messages until they do"</p>
                     <p>Ye dekh ke thoda ajeeb sa to laga tha, gussa nhi aya ekdum se. Wo baad me aya tha. Lekin me bohot
                         jyada busy tha or continous nuksaan hi jhel rha tha pichle din se to itna jyada impact nhi pada
-                        initially.</p>
+                        initially. Kuch ghant baad gussa aya tha prachi pe fir khud pe.</p>
                     <p class="highlight">Sote Time jaroor Dimag kharab ho gaya tha mera.... wo overthinking wala phase
                         tabhi shuru hota h.</p>
-                    <p>Kher mene ye notification dekha tha wo calender wala tab 50% gussa khatam ho gaya tha(pata nhi ye
-                        bhagwan mere se chahte kya h. Hamesha aisi jagah patak dete h jaha me kuch soch hi nhi pata),
-                        baaki 50% tumhare wo text ke baad, tumhare upar nhi h ab koi naragzi | agar hoti to me tumahre
-                        texts nhi dekhta. Kya pata itne jaldi thanda kyun ho jata hu me. Ab gussa bs mujhe mere upar aa
-                        rha h, or me nhi janta wo kabtak rahega.</p>
                 </div>
             </div>
 
-            <!-- Page 3 -->
+            <!-- P3 -->
             <div class="page">
                 <div class="page-content">
                     <div class="page-number">3</div>
-                    <p>Khush hone ki jaroorat nhi h, mujhe nhi pata mera EGO tumhare case me ange kyun nhi aa pata.
-                        Jabki mere khandaan me bhi aisa koi nhi. Aisa koi nhi jiske samne mere EGO ne dm toda ho.</p>
-                    <p class="highlight">Or haa me sachme sabse jyada alag hu. Wo to tum dekh hi paa rhi ho.</p>
-                    <br>
-                    <p><i>"Agar tum meri friendship nhi chahti to tum hata sakti ho, me kuch nhi bolne wala, or naraz
-                            bhi nhi hone wala. Telegram khula h mera tumhare liye. Kyuki mujhe aisa kuch nhi chaiye
-                            jiske karan tumhe dukh ho."</i></p>
-                    <p class="highlight">Ab mene tumko kabhi whatsapp pe text nhi kara/ call bhi nhi kara kabhi, uska
-                        karan ye h kii wo tumhari personal space hai. Instagram bhi same cheez. Us din mene bs bol diya
-                        tha kyuki mene galati se wo chanchal wali line bol di thi.(warna nhi bolta)</p>
+                    <p>Kher mene ye notification dekha tha wo calender wala tab 50% gussa khatam ho gaya tha(tumahre
+                        liye),
+                        baaki 50% tumhare wo text ke baad, tumhare upar nhi h ab koi naragzi.</p>
+                    <p>Agar hoti to me tumahre texts nhi dekhta. Kya pata itne jaldi thanda kyun ho jata hu me. Ab gussa
+                        bs mujhe mere upar aa rha h.</p>
+                    <p><i>Dekho prachi, abhi me bs confused hu ki me kya karu. Mere dimag me countless possibilities h,
+                            to me kya kya soch ke kya hi chunu, ek to aisa hota kyun h ki mere prediction specifically
+                            tumhare samne hamesha fail hote h. To me nhi janta ki what should I do next.</i></p>
+                    <p class="highlight">"Agar tum meri friendship nhi chahti to tum hata sakti ho, me kuch nhi bolne
+                        wala..., na hi naraz hone wala.... Telegram khula h mera tumhare liye."</p>
+                    <p>I was just trying to be the best temporary person of your life. Or haa meri decided lifespan km h
+                        isliye me nhi milunga tumse baad me. </p>
+                    <p class="highlight">However you'll recieve something GREAT before I leave.</p>
+                </div>
+            </div>
+
+            <!-- P4 -->
+            <div class="page">
+                <div class="page-content">
+                    <div class="page-number">4</div>
+                    <p highlight>Ab mene tumko kabhi whatsapp pe text nhi kara/ call bhi nhi kara kabhi, uska karan ye h
+                        kii wo
+                        tumhari personal space hai. Or me aisi koi cheez acceot nhi kar sakta jis se tumhe takeef ho. Wo
+                        instagram pe bhi isiliy mene mana kar diya tha, kyuki tum enthusisam me aake bina jyada soche
+                        maang rhi thi. To mujhe pata tha ye baad me regret karegi to mene samne se hi bol diya ki follow
+                        mat karna.</p>
                     <p>Or me bohot hard hu bahar walon ke liye. Serious face or extra serious responses hi milte h unko.
-                        Tumko ordinary banna h to theek h fir, thoda mushkil h lekin kar hi dunga me tumhare liye🫡 </p>
+                        Tumko ordinary banna h to theek h fir, thoda mushkil h lekin kar hi dunga me tumhare liye🫡</p>
                     <p>Or mene wo jo sab banaya tha sherlock se bolke trash kara diya. to wo kuch nhi bhejega. Christmas
                         newyear kuch nhii, wo webapp bhi delete kar diya hoga shyd usne.</p>
                 </div>
             </div>
 
-            <!-- Page 4 -->
-            <div class="page">
+            <!-- P5 (Back Cover) -->
+            <div class="page back-cover">
                 <div class="page-content">
-                    <div class="page-number">4</div>
-                    <p class="highlight">Final thoughts...</p>
+                    <p
+                        style="font-family:'Cinzel'; text-transform:uppercase; letter-spacing:3px; color:var(--gold); margin-bottom:10px;">
+                        Final Thoughts</p>
                     <p>Me janta hu tumne mere chakkar me bohot overthinking kari hogi. Dekho me nhi chahta tum bhi is
                         beemari ka shikar ban jao. Isiliye me CLEAR kar rha hu ki me tumse 1% bhi naraz nhi hu, you are
-                        free to move! </p>
-                    <p>Or mene sabko remove nhi kar paya tha, shyd se 12 se 13 log ko kara tha baakiyon ko karna tha
-                        tabtak tumne mujhe kar diye to kaafi log bahe h.</p>
-                    <p>Me soch rha hu snap hi uda du 🦥 bs ye log mujhe dhar lenge 🙃 beech raste me (inki streak hi
-                        1200+ days ki h) kisi dost ko de de rha ab wahi sambhal legi, dekha jayegaaaa. Tumhe chaiye ho
-                        to batana...</p>
-                    <p class="highlight"><i>"Or is waqt me bohot jyada gusse me hu(Tumhara koi role nhi usme, wo bs meri
-                            khudki wajah se h) isiliye me nhi chahta me koi bewkoofi
-                            bhare words bolke tumhara dil dukha du."...</i></p>
-                    <p>Kyuki mene tumhe bura feel karaya to meri chest me firse wo ajeeb sa lagne lagega , wo guilt
-                        sabse top class pain h. Or tumne yaha tk read kar liya to tum ab chill karo. Mene bs likh diya
-                        kuch bhi. Or nakhre ki tension mt lo wo me aaram se utha sakta hu, bs hurt nhi kar sakta meri
-                        pgliiiiiiiiiiiiiiiiiiiiiii pirachiiiiiiiiiiiiiiiiiii ko. Isiliye I am thinking to walk away, ab
-                        tum batao tumhare kya vichar h. Tum padho chupchaap or chill karo 🐼</p>
-                    <br><br>
-                  <p class="highlight">Waise kl exam h mera! All the best nhi kahogi??</p>
-                    <p style="text-align: center;">Bye🌟Bye</p>
+                        free to move!</p>
+
+                    <p><i>"Or is waqt me bohot jyada gusse me hu (Tumhara koi role nhi usme, wo bs meri khudki wajah se
+                            h)..."</i></p>
+
+                    <p>Kyuki mene tumhe ya kisi ko bhi bura feel karaya to meri chest me firse wo ajeeb sa lagne lagega.
+                        Isiliye I am
+                        thinking to walk away, ab tum batao tumhare kya vichar h. I think we should have a serious TRUTH
+                        AND DARE SESSION
+                    </p>
+                    <p>Or haa me chahunga tum ye notebook doobara padho ek baar mere perspective se or fir bhool jao
+                        sab. Agar tumne soch samajh ke ye sab nhi kiya to mere hisab se wo bs ek mood swing tha. To tum
+                        bs apni state or mind ko calm rakho or udas mat hona kisi faltoo mood swing ke impact se. Lekin
+                        agar wo mood swing nhi tha to ho sakti ho!!</p>
+                    <p class="highlight">Tum padho chupchaap or chill karo 🐼 Faltoo cheezon ki chinta karne ki jaroorat
+                        nhi h. </p>
+
+                    <div class="final-signature">Bye 🌟 Bye</div>
                 </div>
             </div>
+
 
         </div>
     </div>
 
     <script>
-        // Firefly Animation
+        // Setup Fireflies
         const firefliesContainer = document.getElementById('fireflies');
-        const fireflyCount = 30;
+        for (let i = 0; i < 40; i++) {
+            const f = document.createElement('div');
+            f.className = 'firefly';
+            f.style.left = Math.random() * 100 + '%';
+            f.style.top = Math.random() * 100 + '%';
+            f.style.animationDelay = Math.random() * 5 + 's';
+            f.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            firefliesContainer.appendChild(f);
+        }
 
-        for (let i = 0; i < fireflyCount; i++) {
-            const firefly = document.createElement('div');
-            firefly.className = 'firefly';
+        // Enter Diary Function
+        function enterDiary() {
+            const tutorial = document.getElementById('tutorial');
+            const book = document.getElementById('bookContainer');
 
-            // Random positioning and animation properties
-            const left = Math.random() * 100;
-            const top = Math.random() * 100;
-            const duration = Math.random() * 10 + 5; // 5-15s
-            const delay = Math.random() * 5;
-
-            firefly.style.left = left + '%';
-            firefly.style.top = top + '%';
-            firefly.style.animationDuration = duration + 's';
-            firefly.style.animationDelay = delay + 's';
-
-            firefliesContainer.appendChild(firefly);
+            tutorial.classList.add('hidden');
+            setTimeout(() => {
+                tutorial.style.display = 'none';
+                book.classList.remove('closed'); // Triggers entrance animation
+            }, 800);
         }
 
         // Page Navigation Logic
-        let currentPage = 0;
         const pages = document.querySelectorAll('.page');
         const totalPages = pages.length;
         const navHint = document.querySelector('.nav-hint');
 
-        function flipPage(direction) {
-            navHint.classList.add('hidden'); // Hide hint on first interaction
-
-            if (direction === 'next' && currentPage < totalPages - 1) {
-                pages[currentPage].classList.add('flipped');
-                currentPage++;
-            } else if (direction === 'back' && currentPage > 0) {
-                currentPage--;
-                pages[currentPage].classList.remove('flipped');
-            }
-        }
-
-        // Touch/Click Handling
-        document.addEventListener('click', (e) => {
-            const screenWidth = window.innerWidth;
-            if (e.clientX > screenWidth / 2) {
-                flipPage('next');
-            } else {
-                flipPage('back');
-            }
+        // Initial Z-Index Setup
+        pages.forEach((page, index) => {
+            page.style.zIndex = totalPages - index;
         });
 
-        // Swipe Support
-        let touchStartX = 0;
-        let touchEndX = 0;
+        // Click Logic
+        pages.forEach((page, index) => {
+            page.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
 
-        document.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
+                // Hide hint on first interaction
+                if (navHint) navHint.classList.add('hidden');
 
-        document.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, { passive: true });
+                const isFlipped = this.classList.contains('flipped');
 
-        function handleSwipe() {
-            if (touchStartX - touchEndX > 50) {
-                flipPage('next');
-            }
-            if (touchEndX - touchStartX > 50) {
-                flipPage('back');
-            }
-        }
+                if (!isFlipped) {
+                    // FLIP FORWARD (Right -> Left)
+                    this.classList.add('flipped');
+                    // On Left stack, higher index should be ON TOP.
+                    this.style.zIndex = 100 + index;
+                } else {
+                    // FLIP BACK (Left -> Right)
+
+                    // Check if there is a page on top of me (next sibling acts as top of left stack)
+                    // The next sibling in DOM has higher index.
+                    const nextSibling = this.nextElementSibling;
+                    if (nextSibling && nextSibling.classList.contains('page') && nextSibling.classList.contains('flipped')) {
+                        return; // Blocked by page on top
+                    }
+
+                    this.classList.remove('flipped');
+                    // Restore Right Stack Z-Index
+                    this.style.zIndex = totalPages - index;
+                }
+            });
+        });
+
+        // Touch/Swipe Support (Basic - clicking sides)
+        // We can map left/right screen taps to the active top-most page.
+        // This is complex with the z-index logic but the click listeners above handle specific elements.
+        // Global click handler for "next/prev" areas:
+
+        document.addEventListener('click', (e) => {
+            // Only trigger if we didn't click a page directly (pages stopPropagation)
+            // But we want to support clicking the "background" to flip? 
+            // Maybe better not to interfere if the user misses the page.
+
+            // However, the request asked for "Tutorial" and ease of use.
+            // Let's rely on the pages being large enough.
+        });
+
     </script>
 </body>
 
 </html>
+```
